@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C11C0612-D2E4-4881-AFEA-8DB29AFF5AFD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>VitPro.Engine</RootNamespace>
+    <AssemblyName>VPE</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="OpenTK">
+      <HintPath>..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\Engine\_Core\Font\OutlinedFont.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec2i\_Def.cs" />
+    <Compile Include="Source\_Lib\Resource.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec3\_Def.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec3\Algebra.cs" />
+    <Compile Include="Source\_Lib\Matrix\Mat4\_Def.cs" />
+    <Compile Include="Source\_Lib\Matrix\Mat4\Algebra.cs" />
+    <Compile Include="Source\_Lib\Color\_Def.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec2\_Def.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec2\Algebra.cs" />
+    <Compile Include="Source\_Lib\Matrix\Mat3\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\App\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\App\Events.cs" />
+    <Compile Include="Source\Engine\_Core\App\GL.cs" />
+    <Compile Include="Source\Engine\_Core\App\Window.cs" />
+    <Compile Include="Source\Engine\_Core\Draw\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\Draw\Primitives.cs" />
+    <Compile Include="Source\Engine\_Core\Draw\Text.cs" />
+    <Compile Include="Source\Engine\_Core\Font\_IFont.cs" />
+    <Compile Include="Source\Engine\_Core\Input\Key.cs" />
+    <Compile Include="Source\Engine\_Core\Input\Keyboard.cs" />
+    <Compile Include="Source\Engine\_Core\Input\Mouse.cs" />
+    <Compile Include="Source\Engine\_Core\Input\MouseButton.cs" />
+    <Compile Include="Source\Engine\_Core\RenderState\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\RenderState\Misc.cs" />
+    <Compile Include="Source\Engine\_Core\RenderState\Projection.cs" />
+    <Compile Include="Source\Engine\_Core\RenderState\RenderTarget.cs" />
+    <Compile Include="Source\Engine\_Core\RenderState\Transformation.cs" />
+    <Compile Include="Source\Engine\_Core\Shader\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\Shader\StdShaders.cs" />
+    <Compile Include="Source\Engine\_Core\Shader\Uniforms.cs" />
+    <Compile Include="Source\Engine\_Core\Texture\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\Texture\SaveLoad.cs" />
+    <Compile Include="Source\Engine\_Core\Timer.cs" />
+    <Compile Include="Source\Engine\UI\Element\_Def.cs" />
+    <Compile Include="Source\Engine\UI\Elements\Frame.cs" />
+    <Compile Include="Source\Engine\UI\Element\Positioning.cs" />
+    <Compile Include="Source\Engine\UI\State.cs" />
+    <Compile Include="Source\Engine\UI\Elements\Label.cs" />
+    <Compile Include="Source\Engine\UI\Elements\ElementList.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec2\Misc.cs" />
+    <Compile Include="Source\Engine\UI\Element\Events.cs" />
+    <Compile Include="Source\Engine\UI\Elements\Button.cs" />
+    <Compile Include="Source\Engine\_Core\State\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\State\Manager.cs" />
+    <Compile Include="Source\_Lib\Color\Default.cs" />
+    <Compile Include="Source\Engine\UI\Elements\CheckBox.cs" />
+    <Compile Include="Source\Engine\UI\Elements\Scale.cs" />
+    <Compile Include="Source\Engine\_Core\Font\Font.cs" />
+    <Compile Include="Source\_Lib\GRandom\_Def.cs" />
+    <Compile Include="Source\_Lib\GRandom\_ExtRandom.cs" />
+    <Compile Include="Source\_Lib\Color\HSV.cs" />
+    <Compile Include="Source\Engine\UI\Element\Rendering.cs" />
+    <Compile Include="Source\Engine\UI\Element\Text.cs" />
+    <Compile Include="Source\_Lib\Color\Mix.cs" />
+    <Compile Include="Source\_Lib\GMath\_Def.cs" />
+    <Compile Include="Source\_Lib\GMath\Misc.cs" />
+    <Compile Include="Source\_Lib\GMath\Clamp.cs" />
+    <Compile Include="Source\_Lib\GUtil\_Def.cs" />
+    <Compile Include="Source\_Lib\_ExtAction.cs" />
+    <Compile Include="Source\_Lib\_ExtICollection.cs" />
+    <Compile Include="Source\Engine\_Core\Sound\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\Sound\WaveLoader.cs" />
+    <Compile Include="Source\Engine\_Core\Sound\Static.cs" />
+    <Compile Include="Source\Engine\_Core\IRenderable.cs" />
+    <Compile Include="Source\Engine\_Core\IUpdateable.cs" />
+    <Compile Include="Source\Engine\_Core\_ExtIEnumerable.cs" />
+    <Compile Include="Source\_Lib\Group\_Def.cs" />
+    <Compile Include="Source\_Lib\Group\PosGroup.cs" />
+    <Compile Include="Source\Engine\_Core\Texture\Pixels.cs" />
+    <Compile Include="Source\Engine\_Core\Texture\Misc.cs" />
+    <Compile Include="Source\Engine\_Core\Shader\Texture.cs" />
+    <Compile Include="Source\Engine\Camera\_Def.cs" />
+    <Compile Include="Source\Engine\_Core\Texture\AnimatedTexture.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\OutlineFont.glsl">
+      <LogicalName>OutlineFont.glsl</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\VertexShader.glsl">
+      <LogicalName>VertexShader</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ColorShader.glsl">
+      <LogicalName>ColorShader</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CircleShader.glsl">
+      <LogicalName>CircleShader</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\TextureShader.glsl">
+      <LogicalName>TextureShader</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\_Lib\GRandom\" />
+    <Folder Include="Source\_Lib\GMath\" />
+    <Folder Include="Source\_Lib\GUtil\" />
+    <Folder Include="Source\Engine\_Core\Sound\" />
+    <Folder Include="Source\_Lib\Group\" />
+    <Folder Include="Source\Engine\Camera\" />
+  </ItemGroup>
+</Project>

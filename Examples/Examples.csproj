@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83A5046B-98DE-4C36-B359-EE63F2B55EAF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Examples</RootNamespace>
+    <AssemblyName>Examples</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\EventListener.cs" />
+    <Compile Include="Source\Program.cs" />
+    <Compile Include="Source\InfoState.cs" />
+    <Compile Include="Source\Settings.cs" />
+    <Compile Include="Source\Test.cs" />
+    <Compile Include="Source\RandomFigures.cs" />
+    <Compile Include="Source\Physics.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VPE\VPE.csproj">
+      <Project>{C11C0612-D2E4-4881-AFEA-8DB29AFF5AFD}</Project>
+      <Name>VPE</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\box.png">
+      <LogicalName>box.texture</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\test.glsl">
+      <LogicalName>test.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\test.png">
+      <LogicalName>test.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\font.ttf">
+      <LogicalName>font.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\monof55.ttf">
+      <LogicalName>monof55.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Info.txt">
+      <LogicalName>Info</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
