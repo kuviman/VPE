@@ -8,6 +8,7 @@ namespace VitPro.Engine.Examples {
 
 		public static void Main() {
 			App.Title = "VPE examples";
+			App.Fullscreen = true;
 			App.Run(new Examples());
 		}
 

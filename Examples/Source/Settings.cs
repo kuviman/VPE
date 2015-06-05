@@ -4,7 +4,7 @@ namespace VitPro.Engine.Examples {
 
 	class Settings : UI.State {
 
-		public static double ZoomUI = 1;
+		public static double ZoomUI = 2;
 
 		public Settings() {
 			Zoom = ZoomUI;
