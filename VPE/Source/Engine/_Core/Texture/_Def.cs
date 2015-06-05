@@ -94,7 +94,7 @@ namespace VitPro.Engine {
 		/// Texture wrap mode.
 		/// </summary>
 		public enum WrapMode {
-			Clamp = TextureWrapMode.Clamp,
+			Clamp = TextureWrapMode.ClampToBorder,
 			Repeat = TextureWrapMode.Repeat
 		}
 

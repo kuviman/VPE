@@ -120,12 +120,11 @@ namespace VitPro.Engine {
 			public override void Update(double dt) {
 				base.Update(dt);
 				while (ManagedStack.Count != 0) {
-					if (ManagedStack.Peek().Closed)
+					if (ManagedStack.Peek() == null || ManagedStack.Peek().Closed)
 						ManagedStack.Pop();
 					else if (ManagedStack.Peek().NextState != null)
 						ManagedStack.Push(ManagedStack.Pop().NextState);
-					else
-						break;
+					else break;
 				}
 				CurrentState = ManagedStack.Count == 0 ? null : ManagedStack.Peek();
 				if (CurrentState != null) {

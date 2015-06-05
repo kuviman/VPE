@@ -32,6 +32,19 @@ namespace VitPro.Engine.Examples {
 			Draw.Clear(0.8, 0.8, 1);
 			base.Render();
 		}
+
+		static InfoState instance = new InfoState();
+
+		public class SelectElement : RoundSelectElement {
+			public SelectElement() : base("?") {}
+			public override State GetState() {
+				return instance;
+			}
+		}
+
+		public static UI.Element GetSelectElement() {
+			return new SelectElement();
+		}
 		
 	}
 

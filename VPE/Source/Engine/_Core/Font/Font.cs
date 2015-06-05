@@ -26,6 +26,16 @@ namespace VitPro.Engine {
             Smooth = true;
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VitPro.Engine.Font"/> class.
+		/// </summary>
+		/// <param name="font">Font.</param>
+		public Font(Font font) : this() {
+			autoAdjustSize = font.autoAdjustSize;
+			Smooth = font.Smooth;
+			this.font = font.font;
+		}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VitPro.Engine.Font"/> class.
         /// </summary>

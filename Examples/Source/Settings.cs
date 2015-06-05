@@ -47,6 +47,19 @@ namespace VitPro.Engine.Examples {
 			Draw.Clear(0.8, 0.8, 1);
 			base.Render();
 		}
+
+		static Settings instance = new Settings();
+
+		class SelectElement : RoundSelectElement {
+			public SelectElement() : base("S") {}
+			public override State GetState() {
+				return instance;
+			}
+		}
+
+		public static ExampleSelectElement GetSelectElement() {
+			return new SelectElement();
+		}
 	}
 
 }

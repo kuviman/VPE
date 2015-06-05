@@ -34,12 +34,26 @@ namespace VitPro.Engine {
         /// <param name="style">Font style.</param>
         public OutlinedFont(System.IO.Stream stream, Style style = Style.Regular) : base(stream, style) { }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VitPro.Engine.OutlinedFont"/> class.
+		/// </summary>
+		/// <param name="font">Font.</param>
+		public OutlinedFont(Font font) : base(font) { }
+
         Color _outlineColor = Color.Black;
 
         /// <summary>
         /// Gets or sets font outline color.
         /// </summary>
         public Color OutlineColor { get { return _outlineColor; } set { _outlineColor = value; } }
+
+		Color _color = Color.White;
+
+		/// <summary>
+		/// Gets or sets the font color.
+		/// </summary>
+		/// <value>The color.</value>
+		public Color Color { get { return _color; } set { _color = value; } }
 
         double _outlineWidth = 0.05;
 
@@ -52,14 +66,18 @@ namespace VitPro.Engine {
 
         internal override Texture InternalMakeTexture(string text) {
             Texture tex = base.InternalMakeTexture(text);
-            Texture result = new Texture(tex.Width, tex.Height);
+			int border = GMath.Ceil(tex.Height * OutlineWidth);
+            Texture result = new Texture(tex.Width + 2 * border, tex.Height + 2 * border);
             RenderState.BeginTexture(result);
             Draw.Clear(1, 1, 1, 0);
             RenderState.Set("texture", tex);
             RenderState.Set("textureSize", new Vec2(tex.Width, tex.Height));
             RenderState.Set("outlineWidth", OutlineWidth);
             RenderState.Set("outlineColor", OutlineColor);
-            RenderState.View2d(0, 1, 0, 1);
+			RenderState.Set("borderSize", border);
+			RenderState.Set("resultSize", result.Size);
+			RenderState.Color = Color;
+			RenderState.View2d(0, 1, 0, 1);
             shader.RenderQuad();
             RenderState.EndTexture();
             result.Smooth = Smooth;

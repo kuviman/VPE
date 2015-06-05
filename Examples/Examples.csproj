@@ -32,13 +32,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\EventListener.cs" />
     <Compile Include="Source\Program.cs" />
-    <Compile Include="Source\InfoState.cs" />
     <Compile Include="Source\Settings.cs" />
-    <Compile Include="Source\Test.cs" />
-    <Compile Include="Source\RandomFigures.cs" />
-    <Compile Include="Source\Physics.cs" />
+    <Compile Include="Source\Examples\EventListener.cs" />
+    <Compile Include="Source\Examples\InfoState.cs" />
+    <Compile Include="Source\Examples\Physics.cs" />
+    <Compile Include="Source\Examples\RandomFigures.cs" />
+    <Compile Include="Source\Examples\Test.cs" />
+    <Compile Include="Source\ExampleSelectElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -67,5 +68,8 @@
     <EmbeddedResource Include="Resources\Info.txt">
       <LogicalName>Info</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Examples\" />
   </ItemGroup>
 </Project>
