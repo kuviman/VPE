@@ -39,7 +39,7 @@ namespace VitPro.Engine.Examples {
 			public void ChangeState(State state) {
 				lastTexture = new Texture(RenderState.Width, RenderState.Height);
 				RenderState.BeginTexture(lastTexture);
-				Draw.Clear(0.8, 0.8, 1);
+				Draw.Clear(Settings.BackgroundColor);
 				if (CurrentState != null)
 					CurrentState.Render();
 				RenderState.EndTexture();
@@ -88,6 +88,7 @@ namespace VitPro.Engine.Examples {
 			list.Add(new UI.Button("RandomFigures", () => manager.ChangeState(new RandomFigures()), size));
 			list.Add(new UI.Button("Physics", () => manager.ChangeState(new Physics()), size));
 			list.Add(new UI.Button("EventListener", () => manager.ChangeState(new EventListener()), size));
+			list.Add(new UI.Button("Box3d", () => manager.ChangeState(new Box3d()), size));
 			list.Anchor = list.Origin = new Vec2(0.5, 0);
 			list.Offset = new Vec2(0, 10);
 			Frame.Add(list);

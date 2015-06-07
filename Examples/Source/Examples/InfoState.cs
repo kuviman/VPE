@@ -29,7 +29,7 @@ namespace VitPro.Engine.Examples {
 		}
 
 		public override void Render() {
-			Draw.Clear(0.8, 0.8, 1);
+			Draw.Clear(Settings.BackgroundColor);
 			base.Render();
 		}
 

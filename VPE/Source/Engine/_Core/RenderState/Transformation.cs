@@ -43,6 +43,22 @@ namespace VitPro.Engine {
 		/// <summary>
 		/// Scale the model.
 		/// </summary>
+		/// <param name="k">Scale factor for x and y coordinates.</param>
+		public static void Scale(Vec2 k) {
+			Scale(k.X, k.X, 1);
+		}
+
+		/// <summary>
+		/// Scale the model.
+		/// </summary>
+		/// <param name="k">Scale factor for x, y and z coordinates.</param>
+		public static void Scale(Vec3 k) {
+			Scale(k.X, k.X, k.Z);
+		}
+
+		/// <summary>
+		/// Scale the model.
+		/// </summary>
 		/// <param name="k">Scale factor.</param>
 		public static void Scale(double k) {
 			Scale(k, k, k);

@@ -36,7 +36,7 @@ namespace VitPro.Engine.Examples {
 
 		public override void Render() {
 			base.Render();
-			Draw.Clear(0.8, 0.8, 1);
+			Draw.Clear(Settings.BackgroundColor);
 			RenderState.Push();
 			RenderState.View2d(0, RenderState.Width, 0, RenderState.Height);
 			foreach (var figure in figures) {

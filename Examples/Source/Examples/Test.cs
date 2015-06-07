@@ -10,7 +10,7 @@ namespace VitPro.Engine.Examples {
 
 		public override void Render() {
 			base.Render();
-			Draw.Clear(0.8, 0.8, 1);
+			Draw.Clear(Settings.BackgroundColor);
 			if (temp == null)
 				temp = new Texture(name.Width, name.Height);
 			if (temp2 == null)

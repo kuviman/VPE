@@ -34,6 +34,51 @@ namespace VitPro {
 			return new Color(r, g, b, a);
 		}
 
+		Vec3 toHSV() {
+			double Cmax = Math.Max(R, Math.Max(G, B));
+			double Cmin = Math.Min(R, Math.Min(G, B));
+			double d = Cmax - Cmin;
+			double h, s, v;
+			if (d == 0.0)
+				h = 0.0;
+			else if (Cmax == R)
+				h = GMath.Mod(((G - B) / d + 6.0) / 6.0, 1.0);
+			else if (Cmax == G)
+				h = ((B - R) / d + 2.0) / 6.0;
+			else
+				h = ((R - G) / d + 4.0) / 6.0;
+			if (Cmax == 0.0)
+				s = 0.0;
+			else
+				s = d / Cmax;
+			v = Cmax;
+			return new Vec3(h, s, v);
+		}
+
+		/// <summary>
+		/// Gets the hue.
+		/// </summary>
+		/// <value>The hue.</value>
+		public double H {
+			get { return toHSV().X; }
+		}
+
+		/// <summary>
+		/// Gets the saturation.
+		/// </summary>
+		/// <value>The saturation.</value>
+		public double S {
+			get { return toHSV().Y; }
+		}
+
+		/// <summary>
+		/// Gets the value.
+		/// </summary>
+		/// <value>The value.</value>
+		public double V {
+			get { return toHSV().Z; }
+		}
+
 	}
 
 }

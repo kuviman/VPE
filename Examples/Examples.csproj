@@ -40,6 +40,9 @@
     <Compile Include="Source\Examples\RandomFigures.cs" />
     <Compile Include="Source\Examples\Test.cs" />
     <Compile Include="Source\ExampleSelectElement.cs" />
+    <Compile Include="Source\Selector.cs" />
+    <Compile Include="Source\ColorSelector.cs" />
+    <Compile Include="Source\Examples\Box3d.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -51,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\box.png">
-      <LogicalName>box.texture</LogicalName>
+      <LogicalName>box.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\test.glsl">
       <LogicalName>test.glsl</LogicalName>
@@ -67,6 +70,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Info.txt">
       <LogicalName>Info</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ColorSelect.glsl">
+      <LogicalName>ColorSelect.glsl</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

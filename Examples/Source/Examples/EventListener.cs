@@ -17,7 +17,7 @@ namespace VitPro.Engine.Examples {
             int maxEvents = (int) ((RenderState.Height - off * 2 * Settings.ZoomUI) / (20 * Settings.ZoomUI));
             while (events.Count > maxEvents)
                 events.Dequeue();
-            Draw.Clear(0.8, 0.8, 1);
+			Draw.Clear(Settings.BackgroundColor);
             RenderState.Push();
 			RenderState.View2d(0, RenderState.Width, 0, RenderState.Height);
             RenderState.Scale(Settings.ZoomUI);

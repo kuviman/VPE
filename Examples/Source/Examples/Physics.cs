@@ -190,7 +190,7 @@ namespace VitPro.Engine.Examples {
 			base.Render();
 			w = RenderState.Width;
 			h = RenderState.Height;
-			Draw.Clear(Color.Sky);
+			Draw.Clear(Settings.BackgroundColor);
 			RenderState.Push();
 			RenderState.View2d(0, w, 0, h);
 			foreach (var body in bodies)

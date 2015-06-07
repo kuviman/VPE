@@ -4,6 +4,8 @@ namespace VitPro.Engine.Examples {
 
 	class Settings : UI.State {
 
+		public static Color BackgroundColor = Color.Sky;
+
 		public static double ZoomUI = 2;
 
 		public Settings() {
@@ -34,8 +36,25 @@ namespace VitPro.Engine.Examples {
 			zoomList.Add(zoomScale);
 			list.Add(zoomList);
 
+			ColorSelector colorSel = new ColorSelector();
+			colorSel.Color = BackgroundColor;
+			colorSel.Size = new Vec2(100, 100);
+			colorSel.OnChange += (color) => {
+				BackgroundColor = color;
+			};
+			var colorList = new UI.ElementList();
+			colorList.Add(new UI.Label("Background color", 20));
+			colorList.Horizontal = true;
+			colorList.Add(colorSel);
+			list.Add(colorList);
+
 			list.Anchor = list.Origin = new Vec2(0.5, 0.5);
 			Frame.Add(list);
+
+			Frame.Visit(elem => {
+				if (elem is UI.Label)
+					elem.TextColor = Color.Black;
+			});
 		}
 
 		public override void Update(double dt) {
@@ -44,7 +63,7 @@ namespace VitPro.Engine.Examples {
 		}
 
 		public override void Render() {
-			Draw.Clear(0.8, 0.8, 1);
+			Draw.Clear(BackgroundColor);
 			base.Render();
 		}
 

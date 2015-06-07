@@ -130,6 +130,7 @@ namespace VitPro.Engine {
 		/// <param name="texture">Texture.</param>
 		public static void Box(Texture texture) {
 			RenderState.Push();
+			RenderState.Translate(0.5, 0.5, 0.5);
 
 			for (int i = 0; i < 4; i++) {
 				RenderState.RotateY(Math.PI / 2);
