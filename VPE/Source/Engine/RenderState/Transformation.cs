@@ -45,7 +45,7 @@ namespace VitPro.Engine {
 		/// </summary>
 		/// <param name="k">Scale factor for x and y coordinates.</param>
 		public static void Scale(Vec2 k) {
-			Scale(k.X, k.X, 1);
+			Scale(k.X, k.Y, 1);
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace VitPro.Engine {
 		/// </summary>
 		/// <param name="k">Scale factor for x, y and z coordinates.</param>
 		public static void Scale(Vec3 k) {
-			Scale(k.X, k.X, k.Z);
+			Scale(k.X, k.Y, k.Z);
 		}
 
 		/// <summary>

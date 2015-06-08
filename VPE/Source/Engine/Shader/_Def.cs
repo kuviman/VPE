@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 using log4net;
+using System.Collections.Generic;
 
 namespace VitPro.Engine {
 
@@ -16,11 +17,23 @@ namespace VitPro.Engine {
 			App.Init();
 			log.Info("Compiling basic vertex shader");
 			vertexShader = GL.CreateShader(ShaderType.VertexShader);
-			GL.ShaderSource(vertexShader, Resource.String("VertexShader"));
+			GL.ShaderSource(vertexShader, Resource.String("Shaders/Vertex/Basic.glsl"));
 			GL.CompileShader(vertexShader);
+
+			AddLib(Resource.String("Shaders/Lib/HSV.glsl"));
 		}
 
 		int program;
+
+		static List<string> libSources = new List<string>();
+
+		/// <summary>
+		/// Add a lib which will be accessible from all the shaders.
+		/// </summary>
+		/// <param name="source">Lib source.</param>
+		public static void AddLib(string source) {
+			libSources.Add(source);
+		}
 		
 		/// <summary>
 		/// Compile a shader.
@@ -30,7 +43,10 @@ namespace VitPro.Engine {
 			program = GL.CreateProgram();
 			foreach (var source in sources) {
 				var shader = GL.CreateShader(ShaderType.FragmentShader);
-				GL.ShaderSource(shader, source);
+				var completeSource = source;
+				foreach (var lib in libSources)
+					completeSource = lib + completeSource;
+				GL.ShaderSource(shader, completeSource);
 				GL.CompileShader(shader);
 				int compileStatus;
 				GL.GetShader(shader, ShaderParameter.CompileStatus, out compileStatus);

@@ -74,6 +74,9 @@
     <EmbeddedResource Include="Resources\ColorSelect.glsl">
       <LogicalName>ColorSelect.glsl</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ColorSelectValue.glsl">
+      <LogicalName>ColorSelectValue.glsl</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Examples\" />

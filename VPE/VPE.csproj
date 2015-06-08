@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Engine\_Core\Font\OutlinedFont.cs" />
     <Compile Include="Source\_Lib\Vector\Vec2i\_Def.cs" />
     <Compile Include="Source\_Lib\Resource.cs" />
     <Compile Include="Source\_Lib\Vector\Vec3\_Def.cs" />
@@ -55,29 +54,6 @@
     <Compile Include="Source\_Lib\Vector\Vec2\_Def.cs" />
     <Compile Include="Source\_Lib\Vector\Vec2\Algebra.cs" />
     <Compile Include="Source\_Lib\Matrix\Mat3\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\App\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\App\Events.cs" />
-    <Compile Include="Source\Engine\_Core\App\GL.cs" />
-    <Compile Include="Source\Engine\_Core\App\Window.cs" />
-    <Compile Include="Source\Engine\_Core\Draw\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\Draw\Primitives.cs" />
-    <Compile Include="Source\Engine\_Core\Draw\Text.cs" />
-    <Compile Include="Source\Engine\_Core\Font\_IFont.cs" />
-    <Compile Include="Source\Engine\_Core\Input\Key.cs" />
-    <Compile Include="Source\Engine\_Core\Input\Keyboard.cs" />
-    <Compile Include="Source\Engine\_Core\Input\Mouse.cs" />
-    <Compile Include="Source\Engine\_Core\Input\MouseButton.cs" />
-    <Compile Include="Source\Engine\_Core\RenderState\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\RenderState\Misc.cs" />
-    <Compile Include="Source\Engine\_Core\RenderState\Projection.cs" />
-    <Compile Include="Source\Engine\_Core\RenderState\RenderTarget.cs" />
-    <Compile Include="Source\Engine\_Core\RenderState\Transformation.cs" />
-    <Compile Include="Source\Engine\_Core\Shader\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\Shader\StdShaders.cs" />
-    <Compile Include="Source\Engine\_Core\Shader\Uniforms.cs" />
-    <Compile Include="Source\Engine\_Core\Texture\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\Texture\SaveLoad.cs" />
-    <Compile Include="Source\Engine\_Core\Timer.cs" />
     <Compile Include="Source\Engine\UI\Element\_Def.cs" />
     <Compile Include="Source\Engine\UI\Elements\Frame.cs" />
     <Compile Include="Source\Engine\UI\Element\Positioning.cs" />
@@ -87,12 +63,9 @@
     <Compile Include="Source\_Lib\Vector\Vec2\Misc.cs" />
     <Compile Include="Source\Engine\UI\Element\Events.cs" />
     <Compile Include="Source\Engine\UI\Elements\Button.cs" />
-    <Compile Include="Source\Engine\_Core\State\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\State\Manager.cs" />
     <Compile Include="Source\_Lib\Color\Default.cs" />
     <Compile Include="Source\Engine\UI\Elements\CheckBox.cs" />
     <Compile Include="Source\Engine\UI\Elements\Scale.cs" />
-    <Compile Include="Source\Engine\_Core\Font\Font.cs" />
     <Compile Include="Source\_Lib\GRandom\_Def.cs" />
     <Compile Include="Source\_Lib\GRandom\_ExtRandom.cs" />
     <Compile Include="Source\_Lib\Color\HSV.cs" />
@@ -105,48 +78,79 @@
     <Compile Include="Source\_Lib\GUtil\_Def.cs" />
     <Compile Include="Source\_Lib\_ExtAction.cs" />
     <Compile Include="Source\_Lib\_ExtICollection.cs" />
-    <Compile Include="Source\Engine\_Core\Sound\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\Sound\WaveLoader.cs" />
-    <Compile Include="Source\Engine\_Core\Sound\Static.cs" />
-    <Compile Include="Source\Engine\_Core\IRenderable.cs" />
-    <Compile Include="Source\Engine\_Core\IUpdateable.cs" />
-    <Compile Include="Source\Engine\_Core\_ExtIEnumerable.cs" />
     <Compile Include="Source\_Lib\Group\_Def.cs" />
     <Compile Include="Source\_Lib\Group\PosGroup.cs" />
-    <Compile Include="Source\Engine\_Core\Texture\Pixels.cs" />
-    <Compile Include="Source\Engine\_Core\Texture\Misc.cs" />
-    <Compile Include="Source\Engine\_Core\Shader\Texture.cs" />
     <Compile Include="Source\Engine\Camera\_Def.cs" />
-    <Compile Include="Source\Engine\_Core\Texture\AnimatedTexture.cs" />
+    <Compile Include="Source\Engine\App\_Def.cs" />
+    <Compile Include="Source\Engine\App\Events.cs" />
+    <Compile Include="Source\Engine\App\GL.cs" />
+    <Compile Include="Source\Engine\App\Window.cs" />
+    <Compile Include="Source\Engine\Draw\_Def.cs" />
+    <Compile Include="Source\Engine\Draw\Primitives.cs" />
+    <Compile Include="Source\Engine\Draw\Text.cs" />
+    <Compile Include="Source\Engine\Font\_IFont.cs" />
+    <Compile Include="Source\Engine\Font\Font.cs" />
+    <Compile Include="Source\Engine\Font\OutlinedFont.cs" />
+    <Compile Include="Source\Engine\Input\Key.cs" />
+    <Compile Include="Source\Engine\Input\Keyboard.cs" />
+    <Compile Include="Source\Engine\Input\Mouse.cs" />
+    <Compile Include="Source\Engine\Input\MouseButton.cs" />
+    <Compile Include="Source\Engine\RenderState\_Def.cs" />
+    <Compile Include="Source\Engine\RenderState\Misc.cs" />
+    <Compile Include="Source\Engine\RenderState\Projection.cs" />
+    <Compile Include="Source\Engine\RenderState\RenderTarget.cs" />
+    <Compile Include="Source\Engine\RenderState\Transformation.cs" />
+    <Compile Include="Source\Engine\Shader\_Def.cs" />
+    <Compile Include="Source\Engine\Shader\StdShaders.cs" />
+    <Compile Include="Source\Engine\Shader\Texture.cs" />
+    <Compile Include="Source\Engine\Shader\Uniforms.cs" />
+    <Compile Include="Source\Engine\Sound\_Def.cs" />
+    <Compile Include="Source\Engine\Sound\Static.cs" />
+    <Compile Include="Source\Engine\Sound\WaveLoader.cs" />
+    <Compile Include="Source\Engine\State\_Def.cs" />
+    <Compile Include="Source\Engine\State\Manager.cs" />
+    <Compile Include="Source\Engine\Texture\_Def.cs" />
+    <Compile Include="Source\Engine\Texture\AnimatedTexture.cs" />
+    <Compile Include="Source\Engine\Texture\Misc.cs" />
+    <Compile Include="Source\Engine\Texture\Pixels.cs" />
+    <Compile Include="Source\Engine\Texture\SaveLoad.cs" />
+    <Compile Include="Source\Engine\_ExtIEnumerable.cs" />
+    <Compile Include="Source\Engine\IRenderable.cs" />
+    <Compile Include="Source\Engine\IUpdateable.cs" />
+    <Compile Include="Source\Engine\Timer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Resources\OutlineFont.glsl">
-      <LogicalName>OutlineFont.glsl</LogicalName>
+    <EmbeddedResource Include="Resources\Shaders\Fragment\OutlineFont.glsl">
+      <LogicalName>Shaders/Fragment/OutlineFont.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Fragment\Circle.glsl">
+      <LogicalName>Shaders/Fragment/Circle.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Fragment\Color.glsl">
+      <LogicalName>Shaders/Fragment/Color.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Fragment\Texture.glsl">
+      <LogicalName>Shaders/Fragment/Texture.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Vertex\Basic.glsl">
+      <LogicalName>Shaders/Vertex/Basic.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Lib\HSV.glsl">
+      <LogicalName>Shaders/Lib/HSV.glsl</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Resources\VertexShader.glsl">
-      <LogicalName>VertexShader</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ColorShader.glsl">
-      <LogicalName>ColorShader</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\CircleShader.glsl">
-      <LogicalName>CircleShader</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\TextureShader.glsl">
-      <LogicalName>TextureShader</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Source\_Lib\GRandom\" />
     <Folder Include="Source\_Lib\GMath\" />
     <Folder Include="Source\_Lib\GUtil\" />
-    <Folder Include="Source\Engine\_Core\Sound\" />
     <Folder Include="Source\_Lib\Group\" />
     <Folder Include="Source\Engine\Camera\" />
+    <Folder Include="Resources\Shaders\" />
+    <Folder Include="Resources\Shaders\Vertex\" />
+    <Folder Include="Resources\Shaders\Fragment\" />
+    <Folder Include="Resources\Shaders\Lib\" />
   </ItemGroup>
 </Project>

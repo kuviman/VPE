@@ -10,9 +10,9 @@ namespace VitPro.Engine {
 		public static class Std {
 
             static Std() {
-                Color = Load("ColorShader");
-                Circle = Load("CircleShader");
-                Texture = Load("TextureShader");
+                Color = Load("Shaders/Fragment/Color.glsl");
+				Circle = Load("Shaders/Fragment/Circle.glsl");
+				Texture = Load("Shaders/Fragment/Texture.glsl");
             }
 			
 			static Shader Load(string name) {

@@ -62,7 +62,7 @@ namespace VitPro.Engine {
         /// </summary>
         public double OutlineWidth { get { return _outlineWidth; } set { _outlineWidth = value; } }
 
-        static Shader shader = new Shader(Resource.String("OutlineFont.glsl"));
+        static Shader shader = new Shader(Resource.String("Shaders/Fragment/OutlineFont.glsl"));
 
         internal override Texture InternalMakeTexture(string text) {
             Texture tex = base.InternalMakeTexture(text);
