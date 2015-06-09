@@ -68,10 +68,9 @@ namespace VitPro.Engine.UI {
 
 		public override void Press() {
 			base.Press();
+			Value = lastPos;
 			if (OnChanging != null) {
-				Value = lastPos;
-				if (OnChanging != null)
-					OnChanging.Invoke(Value);
+				OnChanging.Invoke(Value);
 			}
 		}
 

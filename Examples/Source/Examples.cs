@@ -32,7 +32,11 @@ namespace VitPro.Engine.Examples {
 				k -= dt * 5;
 				Examples.SelectedState = CurrentState;
 			}
+
+			Vec2i size = new Vec2i(1, 1);
+
 			public override void Render() {
+				size = RenderState.Size;
 				if (k > 0) {
 					RenderState.BeginTexture(currentTexture);
 					base.Render();
@@ -48,13 +52,13 @@ namespace VitPro.Engine.Examples {
 					base.Render();
 			}
 			public void ChangeState(State state) {
-				lastTexture = new Texture(RenderState.Width, RenderState.Height);
+				lastTexture = new Texture(size.X, size.Y);
 				RenderState.BeginTexture(lastTexture);
 				Draw.Clear(Settings.BackgroundColor);
 				if (CurrentState != null)
 					CurrentState.Render();
 				RenderState.EndTexture();
-				currentTexture = new Texture(RenderState.Width, RenderState.Height);
+				currentTexture = new Texture(size.X, size.Y);
 				k = 1;
 				NextState = state;
 			}
@@ -77,7 +81,6 @@ namespace VitPro.Engine.Examples {
 		}
 
 		public Examples() {
-			Background = manager;
 
 			bar.BackgroundColor = Color.LightGray;
 			bar.BorderColor = Color.Black;
@@ -95,6 +98,10 @@ namespace VitPro.Engine.Examples {
 				elem.Offset = new Vec2(x, -30);
 				x += 35;
 			});
+
+			stateFrame = new UI.StateFrame(manager);
+			stateFrame.Anchor = stateFrame.Origin = new Vec2(0, 0);
+			Frame.Add(stateFrame);
 
 			var stateList = new UI.ElementList();
 			stateList.Anchor = stateList.Origin = new Vec2(0.5, 1);
@@ -122,17 +129,20 @@ namespace VitPro.Engine.Examples {
 			base.Update(dt);
 			Zoom = Settings.ZoomUI;
             fpsLabel.Text = "FPS: " + ((int)App.FPS).ToString();
-			if (Background.Closed)
+			if (manager.Closed)
 				Close();
 			if (SelectedState != null)
 				nameLabel.Text = SelectedState.GetType().Name;
 			bar.Size = new Vec2(Frame.Size.X, 60);
+			stateFrame.Size = new Vec2(Frame.Size.X, Frame.Size.Y - 60);
 		}
 
 		UI.Element bar = new UI.Element();
 
 		UI.Label nameLabel = new UI.Label("", 30);
 		UI.Label fpsLabel = new UI.Label("", 16);
+
+		UI.StateFrame stateFrame;
 
 	}
 }

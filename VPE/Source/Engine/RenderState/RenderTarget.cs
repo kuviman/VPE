@@ -30,7 +30,6 @@ namespace VitPro.Engine {
 				if (GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer) != FramebufferErrorCode.FramebufferComplete)
 					throw new OpenTK.GraphicsException("Framebuffer is wrong");
 				GL.BindFramebuffer(FramebufferTarget.Framebuffer, fb);
-				GL.Viewport(0, 0, w, h);
 			}
 
 			public void Finish() {
@@ -53,6 +52,8 @@ namespace VitPro.Engine {
 
 			RenderState.Push();
             RenderState.ClearState();
+			areaStack.Push(null);
+			setupViewport();
 		}
 
 		/// <summary>
@@ -64,9 +65,69 @@ namespace VitPro.Engine {
 			targetStack.Pop().Finish();
 			if (targetStack.Count != 0)
 				targetStack.Peek().Start();
-			else {
+			else
 				GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-				GL.Viewport(0, 0, App.Width, App.Height);
+			areaStack.Pop();
+			setupViewport();
+		}
+
+		struct RenderArea {
+			public Vec2i pos, size;
+		}
+
+		static Stack<RenderArea?> areaStack = new Stack<RenderArea?>();
+
+		static void setupViewport() {
+			RenderArea area;
+			if (areaStack.Count == 0 || areaStack.Peek() == null) {
+				area.pos = Vec2i.Zero;
+				area.size = Size;
+			} else
+				area = areaStack.Peek().Value;
+			GL.Enable(EnableCap.ScissorTest);
+			GL.Scissor(area.pos.X, area.pos.Y, area.size.X, area.size.Y);
+			GL.Viewport(area.pos.X, area.pos.Y, area.size.X, area.size.Y);
+		}
+
+		/// <summary>
+		/// Begin rendering to an area.
+		/// </summary>
+		/// <param name="pos">Bottom left corner of the area.</param>
+		/// <param name="size">Size of the area.</param>
+		public static void BeginArea(Vec2i pos, Vec2i size) {
+			Vec2i curPos = Vec2i.Zero;
+			if (areaStack.Count != 0 && areaStack.Peek() != null)
+				curPos = areaStack.Peek().Value.pos;
+			pos += curPos;
+
+			size.X = Math.Max(size.X, 1);
+			size.Y = Math.Max(size.Y, 1);
+
+			var area = new RenderArea();
+			area.pos = pos;
+			area.size = size;
+			areaStack.Push(area);
+			setupViewport();
+		}
+
+		/// <summary>
+		/// End rendering to an area.
+		/// </summary>
+		public static void EndArea() {
+			areaStack.Pop();
+			setupViewport();
+		}
+
+		/// <summary>
+		/// Gets the size of the current render target.
+		/// </summary>
+		/// <value>The size.</value>
+		public static Vec2i Size {
+			get {
+				if (areaStack.Count == 0 || areaStack.Peek() == null)
+					return targetStack.Count == 0 ? App.Size : targetStack.Peek().texture.Size;
+				else
+					return areaStack.Peek().Value.size;
 			}
 		}
 
@@ -75,7 +136,7 @@ namespace VitPro.Engine {
 		/// </summary>
 		/// <value>The width.</value>
 		public static int Width {
-			get { return targetStack.Count == 0 ? App.Width : targetStack.Peek().texture.Width;	}
+			get { return Size.X; }
 		}
 
 		/// <summary>
@@ -83,7 +144,7 @@ namespace VitPro.Engine {
 		/// </summary>
 		/// <value>The height.</value>
 		public static int Height {
-			get { return targetStack.Count == 0 ? App.Height : targetStack.Peek().texture.Height;	}
+			get { return Size.Y; }
 		}
 
 		/// <summary>

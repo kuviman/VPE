@@ -43,7 +43,7 @@ namespace VitPro.Engine.Examples {
 			var cur = new List<UI.Element>();
 			Frame.Visit(elem => {
 				if (elem is ExampleSelectElement) {
-					if (curW + elem.Size.X + margin > Frame.Size.X - 300) {
+					if (curW + elem.Size.X + margin > Frame.Size.X - 100) {
 						foreach (var e in cur) {
 							e.Position += new Vec2(Frame.Size.X / 2 - curW / 2, 0);
 						}

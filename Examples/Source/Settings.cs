@@ -28,7 +28,7 @@ namespace VitPro.Engine.Examples {
 			zoomLabel.TextColor = Color.Black;
 			var zoomScale = new UI.Scale(100, 20);
 			zoomScale.Value = (ZoomUI - 0.5) / 3;
-			zoomScale.OnChanging += (value) => ZoomUI = 0.5 + value * 3;
+//			zoomScale.OnChanging += (value) => ZoomUI = 0.5 + value * 3;
 			zoomScale.OnChanged += (value) => Zoom = ZoomUI = 0.5 + value * 3;
 			var zoomList = new UI.ElementList();
 			zoomList.Horizontal = true;

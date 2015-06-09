@@ -18,7 +18,7 @@ namespace VitPro.Engine.Examples {
 				int n = GRandom.Next(3, 8);
 				vs = new Vec2[n];
 				for (int i = 0; i < n; i++)
-					vs[i] = Vec2.Rotate(Vec2.OrtX * 40, i * 2 * Math.PI / n);
+					vs[i] = Vec2.Rotate(Vec2.OrtX * 100, i * 2 * Math.PI / n);
 				color = Color.FromHSV(GRandom.NextDouble(), 1, 1, 0.5);
 				a = GRandom.NextDouble(0, 2 * Math.PI);
 				v = Vec2.Zero;
@@ -146,7 +146,7 @@ namespace VitPro.Engine.Examples {
 
 		void Tick(double dt) {
 			foreach (var body in bodies) {
-				body.v += new Vec2(0, 100) * dt;
+				body.v += new Vec2(0, -100) * dt;
 				body.Update(dt);
 				checkWall(body, new Vec2(0, 0), new Vec2(1, 0));
 				checkWall(body, new Vec2(0, 0), new Vec2(0, 1));
