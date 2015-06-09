@@ -6,8 +6,29 @@ namespace VitPro.Engine.Examples {
 
 		public ExampleSelectElement() {}
 
+		public bool StateSelected {
+			get {
+				State current = Examples.SelectedState;
+				State mine = GetState();
+				if (current == null || mine == null)
+					return false;
+				return current.GetType() == mine.GetType();
+			}
+		}
+
 		public abstract State GetState();
 
+		public override void Click() {
+			base.Click();
+			Examples.SelectState(GetState());
+		}
+
+	}
+
+	class ExampleSelectElement<S> : ExampleSelectElement where S : State, new() {
+		public override State GetState() {
+			return new S();
+		}
 	}
 
 	abstract class RoundSelectElement : ExampleSelectElement {
@@ -27,12 +48,22 @@ namespace VitPro.Engine.Examples {
 		Color backColor;
 		double size;
 		string text;
+		double t = 0;
+
+		public override void Update(double dt) {
+			base.Update(dt);
+			t += 10 * dt;
+		}
 
 		public override void Render() {
 			RenderState.Push();
 			if (Pressed)
 				RenderState.Translate(1, -2);
 			RenderState.Push();
+			if (StateSelected) {
+				RenderState.Color = new Color(1, 1, 0, 0.5);
+				Draw.Circle(Center, Math.Max(Size.X, Size.Y) / 1.7 + 1 + (1 + Math.Sin(t)) * 1);
+			}
 			RenderState.Color = Color.Black;
 			Draw.Circle(Center, Math.Max(Size.X, Size.Y) / 1.7);
 			RenderState.Color = backColor;
@@ -46,6 +77,13 @@ namespace VitPro.Engine.Examples {
 			RenderState.Pop();
 			base.Render();
 			RenderState.Pop();
+		}
+	}
+
+	class RoundSelectElement<S> : RoundSelectElement where S : State, new() {
+		public RoundSelectElement(string text, Color? color = null, double size = 30) : base(text, color, size) {}
+		public override State GetState() {
+			return new S();
 		}
 	}
 

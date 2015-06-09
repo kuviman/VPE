@@ -32,10 +32,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Program.cs" />
     <Compile Include="Source\Settings.cs" />
     <Compile Include="Source\Examples\EventListener.cs" />
-    <Compile Include="Source\Examples\InfoState.cs" />
     <Compile Include="Source\Examples\Physics.cs" />
     <Compile Include="Source\Examples\RandomFigures.cs" />
     <Compile Include="Source\Examples\Test.cs" />
@@ -43,6 +41,8 @@
     <Compile Include="Source\Selector.cs" />
     <Compile Include="Source\ColorSelector.cs" />
     <Compile Include="Source\Examples\Box3d.cs" />
+    <Compile Include="Source\Examples.cs" />
+    <Compile Include="Source\Info.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

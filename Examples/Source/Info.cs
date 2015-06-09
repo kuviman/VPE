@@ -2,9 +2,9 @@
 
 namespace VitPro.Engine.Examples {
 
-	class InfoState : UI.State {
+	class Info : UI.State {
 
-		public InfoState() {
+		public Info() {
 			var info = Resource.String("Info").Split(new string[]{"====="}, StringSplitOptions.None);
 			var title = new UI.Label(info[0].Trim(), 32);
 			var subtitle = new UI.Label(info[1].Trim(), 14);
@@ -33,18 +33,7 @@ namespace VitPro.Engine.Examples {
 			base.Render();
 		}
 
-		static InfoState instance = new InfoState();
-
-		public class SelectElement : RoundSelectElement {
-			public SelectElement() : base("?") {}
-			public override State GetState() {
-				return instance;
-			}
-		}
-
-		public static UI.Element GetSelectElement() {
-			return new SelectElement();
-		}
+		static Info instance = new Info();
 		
 	}
 

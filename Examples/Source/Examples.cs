@@ -6,20 +6,31 @@ namespace VitPro.Engine.Examples {
 	
 	class Examples : UI.State {
 
+		static Examples() {
+			Selector.Register<Box3d>();
+			Selector.Register<EventListener>();
+			Selector.Register<Physics>();
+			Selector.Register<RandomFigures>();
+			Selector.Register<Test>();
+		}
+
 		public static void Main() {
 			App.Title = "VPE examples";
 			App.Fullscreen = true;
 			App.Run(new Examples());
 		}
 
+		public static State SelectedState { get; private set; }
+
 		new class Manager : State.Manager {
-			public Manager() : base(new InfoState()) {}
+			public Manager() : base(new Info()) {}
 			Texture lastTexture = null;
 			Texture currentTexture = null;
 			double k = -1;
 			public override void Update(double dt) {
 				base.Update(dt);
 				k -= dt * 5;
+				Examples.SelectedState = CurrentState;
 			}
 			public override void Render() {
 				if (k > 0) {
@@ -49,54 +60,62 @@ namespace VitPro.Engine.Examples {
 			}
 		}
 
-		Manager manager = new Manager();
-
 		class ExitButton : RoundSelectElement {
 			public ExitButton() : base("×", Color.Red) {
 				(Font as OutlinedFont).OutlineWidth = 0.075;
 				TextSize = 40;
-				Padding = -0.15;
 			}
 			public override State GetState() {
 				return null;
 			}
 		}
 
+		static Manager manager = new Manager();
+
+		public static void SelectState(State state) {
+			manager.ChangeState(state);
+		}
+
 		public Examples() {
 			Background = manager;
+
+			bar.BackgroundColor = Color.LightGray;
+			bar.BorderColor = Color.Black;
+			bar.Anchor = bar.Origin = new Vec2(0, 1);
+			Frame.Add(bar);
+
+			Frame.Add(new ExitButton());
+			Frame.Add(new RoundSelectElement<Info>("?"));
+			Frame.Add(new RoundSelectElement<Settings>("S"));
+			double x = 30;
+			Frame.Visit(elem => {
+				if (elem == bar)
+					return;
+				elem.Anchor = new Vec2(0, 1);
+				elem.Offset = new Vec2(x, -30);
+				x += 35;
+			});
+
+			var stateList = new UI.ElementList();
+			stateList.Anchor = stateList.Origin = new Vec2(0.5, 1);
+			stateList.Offset = new Vec2(0, -5);
+			stateList.Spacing = 0;
+
+			var selectButton = new UI.Button("select", () => SelectState(new Selector()), 10);
+			stateList.Add(selectButton);
+
+			var font = new OutlinedFont(Draw.Font as Font);
+			font.OutlineColor = Color.Black;
+			font.OutlineWidth = 0.1;
+			nameLabel.Font = font;
+			nameLabel.Padding = 0;
+			stateList.Add(nameLabel);
+
+			Frame.Add(stateList);
 
 			fpsLabel.Anchor = fpsLabel.Origin = new Vec2(1, 1);
 			fpsLabel.BackgroundColor = new Color(0, 0, 0, 0.5);
 			Frame.Add(fpsLabel);
-
-			Frame.Add(new ExitButton());
-			Frame.Add(InfoState.GetSelectElement());
-			Frame.Add(Settings.GetSelectElement());
-			double x = 30;
-			Frame.Visit(elem => {
-				var a = elem as ExampleSelectElement;
-				if (a == null) return;
-				a.Anchor = new Vec2(0, 1);
-				a.Offset = new Vec2(x, -30);
-				x += 35;
-			});
-
-			var list = new UI.ElementList();
-			list.Horizontal = true;
-			var size = 20;
-			list.Add(new UI.Button("Test", () => manager.ChangeState(new Test()), size));
-			list.Add(new UI.Button("RandomFigures", () => manager.ChangeState(new RandomFigures()), size));
-			list.Add(new UI.Button("Physics", () => manager.ChangeState(new Physics()), size));
-			list.Add(new UI.Button("EventListener", () => manager.ChangeState(new EventListener()), size));
-			list.Add(new UI.Button("Box3d", () => manager.ChangeState(new Box3d()), size));
-			list.Anchor = list.Origin = new Vec2(0.5, 0);
-			list.Offset = new Vec2(0, 10);
-			Frame.Add(list);
-
-			Frame.Visit(elem => {
-				if (elem is ExampleSelectElement)
-					elem.OnClick += () => manager.ChangeState((elem as ExampleSelectElement).GetState());
-			});
 		}
 
 		public override void Update(double dt) {
@@ -105,8 +124,14 @@ namespace VitPro.Engine.Examples {
             fpsLabel.Text = "FPS: " + ((int)App.FPS).ToString();
 			if (Background.Closed)
 				Close();
+			if (SelectedState != null)
+				nameLabel.Text = SelectedState.GetType().Name;
+			bar.Size = new Vec2(Frame.Size.X, 60);
 		}
 
+		UI.Element bar = new UI.Element();
+
+		UI.Label nameLabel = new UI.Label("", 30);
 		UI.Label fpsLabel = new UI.Label("", 16);
 
 	}
