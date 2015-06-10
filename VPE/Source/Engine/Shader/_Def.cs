@@ -94,7 +94,9 @@ namespace VitPro.Engine {
 		/// Render a quad.
 		/// </summary>
 		public void RenderQuad() {
-			RenderPolygon(new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1), new Vec2(0, 1));
+			GL.UseProgram(program);
+			ApplyUniforms();
+			GL.Rect(0, 0, 1, 1);
 		}
 
 	}
