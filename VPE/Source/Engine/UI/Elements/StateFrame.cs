@@ -15,6 +15,7 @@ namespace VitPro.Engine.UI {
 		/// <param name="state">State.</param>
 		public StateFrame(VitPro.Engine.State state) {
 			this.state = new VitPro.Engine.State.Manager(state);
+			Focusable = true;
 		}
 
 		/// <summary>
@@ -66,6 +67,36 @@ namespace VitPro.Engine.UI {
 			base.MouseUp(button, position);
 			if (state != null)
 				state.MouseUp(button, MousePos(position));
+		}
+
+		/// <summary>
+		/// Handles key down event.
+		/// </summary>
+		/// <param name="key">Key pressed.</param>
+		public override void KeyDown(Key key) {
+			base.KeyDown(key);
+			if (state != null)
+				state.KeyDown(key);
+		}
+
+		/// <summary>
+		/// Handles key up event.
+		/// </summary>
+		/// <param name="key">Key released.</param>
+		public override void KeyUp(Key key) {
+			base.KeyUp(key);
+			if (state != null)
+				state.KeyDown(key);
+		}
+
+		/// <summary>
+		/// Handles character input event.
+		/// </summary>
+		/// <param name="c">Character input.</param>
+		public override void CharInput(char c) {
+			base.CharInput(c);
+			if (state != null)
+				state.CharInput(c);
 		}
 
 		/// <summary>

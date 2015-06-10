@@ -81,7 +81,6 @@ namespace VitPro.Engine.Examples {
 		}
 
 		public Examples() {
-
 			bar.BackgroundColor = Color.LightGray;
 			bar.BorderColor = Color.Black;
 			bar.Anchor = bar.Origin = new Vec2(0, 1);
@@ -123,6 +122,8 @@ namespace VitPro.Engine.Examples {
 			fpsLabel.Anchor = fpsLabel.Origin = new Vec2(1, 1);
 			fpsLabel.BackgroundColor = new Color(0, 0, 0, 0.5);
 			Frame.Add(fpsLabel);
+
+			Focus = stateFrame;
 		}
 
 		public override void Update(double dt) {

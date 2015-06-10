@@ -67,6 +67,10 @@ namespace VitPro.Engine {
 				if (State != null)
 					State.KeyUp((Key)e.Key);
 			};
+			window.KeyPress += (sender, e) => {
+				if (State != null)
+					State.CharInput(e.KeyChar);
+			};
 			window.MouseDown += (sender, e) => {
 				if (State != null)
 					State.MouseDown((MouseButton)e.Button, Mouse.Position);

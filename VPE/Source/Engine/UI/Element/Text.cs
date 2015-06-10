@@ -40,7 +40,7 @@ namespace VitPro.Engine.UI {
 		/// <value>The font.</value>
 		public IFont Font { get; set; }
 
-		IFont RealFont { get { return Font == null ? Draw.Font : Font; } }
+		internal IFont RealFont { get { return Font == null ? Draw.Font : Font; } }
 
 		void UpdateText() {
 			if (Text == null)

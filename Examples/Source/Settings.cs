@@ -48,6 +48,16 @@ namespace VitPro.Engine.Examples {
 			colorList.Add(colorSel);
 			list.Add(colorList);
 
+			var titleLabel = new UI.Label("Title", 20);
+			var titleInput = new UI.TextInput(200);
+			var titleList = new UI.ElementList();
+			titleInput.TextAlign = 0;
+			titleInput.OnChanging += (value) => App.Title = value;
+			titleList.Horizontal = true;
+			titleList.Add(titleLabel);
+			titleList.Add(titleInput);
+			list.Add(titleList);
+
 			list.Anchor = list.Origin = new Vec2(0.5, 0.5);
 			Frame.Add(list);
 

@@ -8,7 +8,7 @@ namespace VitPro.Engine.UI {
 		/// Checks whether a point is inside this element.
 		/// </summary>
 		/// <param name="pos">Position of the point.</param>
-		public bool Inside(Vec2 pos) {
+		public virtual bool Inside(Vec2 pos) {
 			Vec2 a = BottomLeft, b = TopRight;
 			return a.X <= pos.X && pos.X <= b.X
 				&& a.Y <= pos.Y && pos.Y <= b.Y;
@@ -163,6 +163,86 @@ namespace VitPro.Engine.UI {
 		public virtual void Unhover() {
 			if (OnUnhover != null)
 				OnUnhover.Invoke();
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="VitPro.Engine.UI.Element"/> is focusable.
+		/// </summary>
+		/// <value><c>true</c> if focusable; otherwise, <c>false</c>.</value>
+		public bool Focusable { get; set; }
+
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="VitPro.Engine.UI.Element"/> is focused.
+		/// </summary>
+		/// <value><c>true</c> if focused; otherwise, <c>false</c>.</value>
+		public bool Focused { get; internal set; }
+
+		/// <summary>
+		/// Occurs when element gains focus.
+		/// </summary>
+		public event Action OnFocus;
+
+		/// <summary>
+		/// Handles the focus gain event.
+		/// </summary>
+		public virtual void Focus() {
+			if (OnFocus != null)
+				OnFocus.Invoke();
+		}
+
+		/// <summary>
+		/// Occurs when element loses focus.
+		/// </summary>
+		public event Action OnLoseFocus;
+
+		/// <summary>
+		/// Handles the focus loss event.
+		/// </summary>
+		public virtual void LoseFocus() {
+			if (OnLoseFocus != null)
+				OnLoseFocus.Invoke();
+		}
+
+		/// <summary>
+		/// Occurs when a key is pressed.
+		/// </summary>
+		public event Action<Key> OnKeyDown;
+
+		/// <summary>
+		/// Handles key down event.
+		/// </summary>
+		/// <param name="key">Key pressed.</param>
+		public virtual void KeyDown(Key key) {
+			if (OnKeyDown != null)
+				OnKeyDown.Invoke(key);
+		}
+
+		/// <summary>
+		/// Occurs when a key is released.
+		/// </summary>
+		public event Action<Key> OnKeyUp;
+
+		/// <summary>
+		/// Handles key up event.
+		/// </summary>
+		/// <param name="key">Key released.</param>
+		public virtual void KeyUp(Key key) {
+			if (OnKeyUp != null)
+				OnKeyUp.Invoke(key);
+		}
+
+		/// <summary>
+		/// Occurs when on a character is input.
+		/// </summary>
+		public event Action<char> OnCharInput;
+
+		/// <summary>
+		/// Handles character input event.
+		/// </summary>
+		/// <param name="c">Character input.</param>
+		public virtual void CharInput(char c) {
+			if (OnCharInput != null)
+				OnCharInput.Invoke(c);
 		}
 
 	}

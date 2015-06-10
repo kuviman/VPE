@@ -19,6 +19,12 @@ namespace VitPro.Engine.UI {
 		/// <value>The frame.</value>
         public Frame Frame { get; private set; }
 
+		/// <summary>
+		/// Gets or sets the focused element.
+		/// </summary>
+		/// <value>The focused element.</value>
+		public Element Focus { get; set; }
+
         /// <summary>
         /// Initializes a new UI state.
         /// </summary>
@@ -70,7 +76,27 @@ namespace VitPro.Engine.UI {
 			base.MouseDown(button, position);
 			if (Background != null)
                 Background.MouseDown(button, position);
-			Frame.MouseDown(button, position / Zoom);
+			position = position / Zoom;
+			Frame.MouseDown(button, position);
+
+			Element lastFocus = Focus;
+			Frame.Visit(elem => {
+				if (!elem.Focusable)
+					return;
+				if (elem.Inside(position))
+					Focus = elem;
+			});
+
+			if (lastFocus != Focus) {
+				if (lastFocus != null) {
+					lastFocus.Focused = false;
+					lastFocus.LoseFocus();
+				}
+				if (Focus != null) {
+					Focus.Focused = true;
+					Focus.Focus();
+				}
+			}
 		}
 
 		/// <summary>
@@ -104,6 +130,8 @@ namespace VitPro.Engine.UI {
 			base.KeyDown(key);
 			if (Background != null)
                 Background.KeyDown(key);
+			if (Focus != null)
+				Focus.KeyDown(key);
 		}
 
 		/// <summary>
@@ -113,7 +141,21 @@ namespace VitPro.Engine.UI {
 		public override void KeyUp(Key key) {
 			base.KeyUp(key);
 			if (Background != null)
-                Background.KeyUp(key);
+				Background.KeyUp(key);
+			if (Focus != null)
+				Focus.KeyUp(key);
+		}
+
+		/// <summary>
+		/// Handles character input event.
+		/// </summary>
+		/// <param name="c">Character input.</param>
+		public override void CharInput(char c) {
+			base.CharInput(c);
+			if (Background != null)
+				Background.CharInput(c);
+			if (Focus != null)
+				Focus.CharInput(c);
 		}
 
 		/// <summary>

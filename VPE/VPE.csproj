@@ -120,6 +120,7 @@
     <Compile Include="Source\Engine\Timer.cs" />
     <Compile Include="Source\Engine\UI\Elements\StateFrame.cs" />
     <Compile Include="Source\_Lib\Vector\Vec2i\Algebra.cs" />
+    <Compile Include="Source\Engine\UI\Elements\TextInput.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

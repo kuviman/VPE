@@ -61,6 +61,16 @@ namespace VitPro.Engine {
 			}
 
 			/// <summary>
+			/// Handles character input event.
+			/// </summary>
+			/// <param name="c">Character input.</param>
+			public override void CharInput(char c) {
+				base.CharInput(c);
+				if (CurrentState != null)
+					CurrentState.CharInput(c);
+			}
+
+			/// <summary>
 			/// Handles mouse button down event.
 			/// </summary>
 			/// <param name="button">Mouse button pressed.</param>

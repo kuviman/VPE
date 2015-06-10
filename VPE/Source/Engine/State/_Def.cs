@@ -44,6 +44,12 @@ namespace VitPro.Engine {
 		public virtual void KeyUp(Key key) {}
 
 		/// <summary>
+		/// Handles character input event.
+		/// </summary>
+		/// <param name="c">Character input.</param>
+		public virtual void CharInput(char c) {}
+
+		/// <summary>
 		/// Handles mouse button down event.
 		/// </summary>
 		/// <param name="button">Mouse button pressed.</param>
