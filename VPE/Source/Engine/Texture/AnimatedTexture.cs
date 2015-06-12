@@ -37,15 +37,10 @@ namespace VitPro.Engine {
 			CurrentTexture.Current.Item1.Render();
 		}
 
-		public void RenderToPosAndSize(Vec2 Pos, Vec2 Size) {
-			RenderState.Push();
-			RenderState.Translate(Pos);
-			RenderState.Scale(Size.X, Size.Y);
-			RenderState.Scale(2);
-			RenderState.Origin(0.5, 0.5);
-			Render();
-			RenderState.Pop();
-		}
+        public Texture GetCurrent()
+        {
+            return CurrentTexture.Current.Item1;
+        }
 
 		public void Update(double dt) {
 			Timer += dt;
