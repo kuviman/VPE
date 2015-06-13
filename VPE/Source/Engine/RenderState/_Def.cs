@@ -20,6 +20,7 @@ namespace VitPro.Engine {
 			Color = new Color(1, 1, 1, 1);
 			Set("textureMatrix", Mat3.Identity);
 			DepthTest = false;
+			BlendMode = BlendMode.Default;
 		}
 
 		internal static Dictionary<string, Stack<Tuple<Shader.IUniform, int>>> uniforms =

@@ -60,8 +60,11 @@ namespace VitPro.Engine {
 					Kill();
 			};
 			window.KeyDown += (sender, e) => {
-				if (State != null)
+				if (State != null) {
+					if (e.IsRepeat)
+						return;
 					State.KeyDown((Key)e.Key);
+				}
 			};
 			window.KeyUp += (sender, e) => {
 				if (State != null)
@@ -73,20 +76,27 @@ namespace VitPro.Engine {
 			};
 			window.MouseDown += (sender, e) => {
 				if (State != null)
-					State.MouseDown((MouseButton)e.Button, Mouse.Position);
+					State.MouseDown((MouseButton)e.Button, FixMouse(Mouse.Position));
 			};
 			window.MouseUp += (sender, e) => {
 				if (State != null)
-					State.MouseUp((MouseButton)e.Button, Mouse.Position);
+					State.MouseUp((MouseButton)e.Button, FixMouse(Mouse.Position));
 			};
 			window.MouseMove += (sender, e) => {
 				if (State != null)
-					State.MouseMove(Mouse.Position);
+					State.MouseMove(FixMouse(Mouse.Position));
 			};
 			window.MouseWheel += (sender, e) => {
 				if (State != null)
 					State.MouseWheel(e.DeltaPrecise);
 			};
+		}
+
+		static Vec2 FixMouse(Vec2 pos) {
+//			if (Multisampling)
+//				return pos * multisampleFactor;
+//			else
+				return pos;
 		}
 
 	}

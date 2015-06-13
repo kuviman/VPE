@@ -10,7 +10,7 @@ namespace VitPro.Engine {
 		static void InitGL() {
 			log.Info("Initializing OpenGL Context");
 			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
 		}
 
 		internal static ConcurrentQueue<int> garbageTextures = new ConcurrentQueue<int>();

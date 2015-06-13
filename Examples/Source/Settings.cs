@@ -24,12 +24,23 @@ namespace VitPro.Engine.Examples {
 			fullscreenList.Add(fullscreenCheckBox);
 			list.Add(fullscreenList);
 
+			var multisampleLabel = new UI.Label("Multisampling", 20);
+			multisampleLabel.TextColor = Color.Black;
+			var multisampleCheckBox = new UI.CheckBox(20);
+//			multisampleCheckBox.Checked = App.Multisampling;
+//			multisampleCheckBox.OnChanged += (value) => App.Multisampling = value;
+			var multisampleList = new UI.ElementList();
+			multisampleList.Horizontal = true;
+			multisampleList.Add(multisampleLabel);
+			multisampleList.Add(multisampleCheckBox);
+			list.Add(multisampleList);
+
 			var zoomLabel = new UI.Label("UI zoom", 20);
 			zoomLabel.TextColor = Color.Black;
 			var zoomScale = new UI.Scale(100, 20);
-			zoomScale.Value = (ZoomUI - 0.5) / 3;
+			zoomScale.Value = (ZoomUI - 0.5) / 6;
 //			zoomScale.OnChanging += (value) => ZoomUI = 0.5 + value * 3;
-			zoomScale.OnChanged += (value) => Zoom = ZoomUI = 0.5 + value * 3;
+			zoomScale.OnChanged += (value) => Zoom = ZoomUI = 0.5 + value * 6;
 			var zoomList = new UI.ElementList();
 			zoomList.Horizontal = true;
 			zoomList.Add(zoomLabel);

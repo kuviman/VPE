@@ -22,7 +22,7 @@ namespace VitPro.Engine.Examples {
 			for (int i = 0; i < n; i++)
 				figure.vertices[i] = Vec2.Rotate(Vec2.OrtX * 40, i * 2 * Math.PI / n);
 			figure.color = Color.FromHSV(GRandom.NextDouble(), 1, 1, 0.5);
-			figure.pos = Mouse.Position;
+			figure.pos = position;
 			figure.a = GRandom.NextDouble(0, 2 * Math.PI);
 			figure.w = GRandom.NextDouble(-1, 1);
 			figures.Add(figure);

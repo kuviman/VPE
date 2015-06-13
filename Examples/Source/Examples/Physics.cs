@@ -11,6 +11,8 @@ namespace VitPro.Engine.Examples {
 			public double a, w;
 			public double m, I;
 
+			public double rad;
+
 			public Color color;
 
 			public Body(Vec2 pos) {
@@ -18,7 +20,10 @@ namespace VitPro.Engine.Examples {
 				int n = GRandom.Next(3, 8);
 				vs = new Vec2[n];
 				for (int i = 0; i < n; i++)
-					vs[i] = Vec2.Rotate(Vec2.OrtX * 100, i * 2 * Math.PI / n);
+					vs[i] = Vec2.Rotate(Vec2.OrtX * 50, i * 2 * Math.PI / n);
+				rad = 0;
+				foreach (var v in vs)
+					rad = Math.Max(rad, v.Length);
 				color = Color.FromHSV(GRandom.NextDouble(), 1, 1, 0.5);
 				a = GRandom.NextDouble(0, 2 * Math.PI);
 				v = Vec2.Zero;
@@ -112,17 +117,22 @@ namespace VitPro.Engine.Examples {
 			return Tuple.Create(pen, p, n);
 		}
 
-		static double CalcJ(double im1, double im2, Vec2 r1, Vec2 r2, double iI1, double iI2, Vec2 v1, Vec2 v2, Vec2 n) {
-			const double E = 0.5;
+		static double CalcJ0(double im1, double im2, Vec2 r1, Vec2 r2, double iI1, double iI2, Vec2 v1, Vec2 v2, Vec2 n, double E) {
 			double z1 = -Vec2.Skew(r1, n) * iI1;
 			double z2 = -Vec2.Skew(r2, n) * iI1;
-			var j = (1 + E) * Vec2.Dot(v2 - v1, n) / (im1 + im2 + Vec2.Skew(n, r1 * z1) + Vec2.Skew(n, r2 * z2));
-			return Math.Max(j, 0);
+			var j = Vec2.Dot(v2 - v1, n) / (im1 + im2 + Vec2.Skew(n, r1 * z1) + Vec2.Skew(n, r2 * z2));
+			return j;
+		}
+
+		static double CalcJ(double im1, double im2, Vec2 r1, Vec2 r2, double iI1, double iI2, Vec2 v1, Vec2 v2, Vec2 n, double E) {
+			var j = (1 + E) * CalcJ0(im1, im2, r1, r2, iI1, iI2, v1, v2, n, E);
+			return j;
 		}
 
 		List<Body> bodies = new List<Body>();
 
 		Body current = null;
+		Body last = null;
 
 		public override void MouseDown(MouseButton button, Vec2 position) {
 			base.MouseDown(button, position);
@@ -133,20 +143,41 @@ namespace VitPro.Engine.Examples {
 			base.MouseUp(button, position);
 			current.v = position - current.p;
 			bodies.Add(current);
+			last = current;
 			current = null;
 		}
 
 		public override void Update(double dt) {
 			base.Update(dt);
 			const int count = 1;
+			if (last != null) {
+				Vec2 v;
+				if (Key.W.Pressed())
+					v.Y += 1;
+				if (Key.A.Pressed())
+					v.X -= 1;
+				if (Key.S.Pressed())
+					v.Y -= 1;
+				if (Key.D.Pressed())
+					v.X += 1;
+				last.v += v * 1000 * dt;
+				double w = 0;
+				if (Key.Left.Pressed())
+					w += 1;
+				if (Key.Right.Pressed())
+					w -= 1;
+				last.w += w * 10 * dt;
+			}
 			for (int i = 0; i < count; i++) {
 				Tick(dt / count);
 			}
 		}
 
 		void Tick(double dt) {
+			if (Key.Space.Pressed())
+				dt /= 5;
 			foreach (var body in bodies) {
-				body.v += new Vec2(0, -100) * dt;
+//				body.v += new Vec2(0, -1000) * dt;
 				body.Update(dt);
 				checkWall(body, new Vec2(0, 0), new Vec2(1, 0));
 				checkWall(body, new Vec2(0, 0), new Vec2(0, 1));
@@ -159,7 +190,12 @@ namespace VitPro.Engine.Examples {
 			}
 		}
 
+		static double E = 0.7, EF = 0.1;
+		static double EPS = 10;
+
 		static void check(Body b1, Body b2) {
+			if ((b1.p - b2.p).SqrLength > GMath.Sqr(b1.rad + b2.rad))
+				return;
 			Tuple<double, Vec2, Vec2> r = Collide(b1, b2);
 			if (r.Item1 < 0)
 				return;
@@ -167,9 +203,19 @@ namespace VitPro.Engine.Examples {
 			b1.p += r.Item1 * r.Item3 / 2;
 			b2.p -= r.Item1 * r.Item3 / 2;
 
-			var j = CalcJ(1 / b1.m, 1 / b2.m, r.Item2 - b1.p, r.Item2 - b2.p, 1 / b1.I, 1 / b2.I, b1.getV(r.Item2), b2.getV(r.Item2), r.Item3);
-			b1.Apply(j * r.Item3, r.Item2);
-			b2.Apply(-j * r.Item3, r.Item2);
+			Vec2 n = r.Item3;
+			var j = CalcJ(1 / b1.m, 1 / b2.m, r.Item2 - b1.p, r.Item2 - b2.p, 
+				1 / b1.I, 1 / b2.I, b1.getV(r.Item2), b2.getV(r.Item2), n, E);
+			j = Math.Max(j, 0);
+
+			Vec2 t = Vec2.Rotate90(n);
+			if (Vec2.Dot(t, b1.getV(r.Item2) - b2.getV(r.Item2)) > 0)
+				t = -t;
+			var jf = j * EF;
+			b1.Apply(jf * t, r.Item2);
+			b1.Apply(jf * t, r.Item2);
+			b1.Apply(j * n, r.Item2);
+			b2.Apply(-j * n, r.Item2);
 		}
 
 		static void checkWall(Body b, Vec2 p, Vec2 n) {
@@ -180,11 +226,26 @@ namespace VitPro.Engine.Examples {
 			b.p += pen.Item1 * n;
 
 			var o = pen.Item2;
-			var J = CalcJ(1 / b.m, 0, o - b.p, Vec2.Zero, 1 / b.I, 0, b.getV(o), Vec2.Zero, n);
+			var J = CalcJ(1 / b.m, 0, o - b.p, Vec2.Zero, 1 / b.I, 0, b.getV(o), Vec2.Zero, n, E);
+			J = Math.Max(J, 0);
+
+			Vec2 t = Vec2.Rotate90(n);
+			if (Vec2.Dot(t, b.getV(o)) > 0)
+				t = -t;
+			var JF = J * EF;
+//			JF = Math.Min(JF, (EPS + Math.Abs(Vec2.Dot(b.getV(o), t)) * b.m));
+			b.Apply(JF * t, o);
 			b.Apply(J * n, o);
 		}
 
 		double w = 1, h = 1;
+
+		Vec2 mousePosition;
+
+		public override void MouseMove(Vec2 position) {
+			base.MouseMove(position);
+			mousePosition = position;
+		}
 
 		public override void Render() {
 			base.Render();
@@ -198,7 +259,7 @@ namespace VitPro.Engine.Examples {
 			if (current != null) {
 				current.Render();
 				RenderState.Color = Color.Red;
-				Draw.Line(current.p, Mouse.Position, 3);
+				Draw.Line(current.p, mousePosition, 3);
 			}
 			RenderState.Pop();
 		}

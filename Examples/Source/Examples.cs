@@ -17,6 +17,7 @@ namespace VitPro.Engine.Examples {
 		public static void Main() {
 			App.Title = "VPE examples";
 			App.Fullscreen = true;
+//			Mouse.Visible = false;
 			App.Run(new Examples());
 		}
 
@@ -136,6 +137,25 @@ namespace VitPro.Engine.Examples {
 				nameLabel.Text = SelectedState.GetType().Name;
 			bar.Size = new Vec2(Frame.Size.X, 60);
 			stateFrame.Size = new Vec2(Frame.Size.X, Frame.Size.Y - 60);
+		}
+
+//		Texture cursor = new Texture(Resource.Stream("cursor.png"));
+
+//		Vec2 mousePos;
+//		public override void MouseMove(Vec2 position) {
+//			base.MouseMove(position);
+//			mousePos = position;
+//		}
+
+		public override void Render() {
+			base.Render();
+//			RenderState.Push();
+//			RenderState.View2d(0, Frame.Size.X, 0, Frame.Size.Y);
+//			RenderState.Translate(mousePos / Zoom);
+//			RenderState.Scale(20);
+//			RenderState.Origin(0, 1);
+//			cursor.Render();
+//			RenderState.Pop();
 		}
 
 		UI.Element bar = new UI.Element();
