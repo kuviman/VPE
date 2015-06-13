@@ -43,6 +43,7 @@
     <Compile Include="Source\Examples\Box3d.cs" />
     <Compile Include="Source\Examples.cs" />
     <Compile Include="Source\Info.cs" />
+    <Compile Include="Source\Examples\BlendModes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

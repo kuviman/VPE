@@ -12,6 +12,7 @@ namespace VitPro.Engine.Examples {
 			Selector.Register<Physics>();
 			Selector.Register<RandomFigures>();
 			Selector.Register<Test>();
+			Selector.Register<BlendModes>();
 		}
 
 		public static void Main() {
