@@ -62,8 +62,9 @@ namespace VitPro.Engine {
 			window.KeyDown += (sender, e) => {
 				if (State != null) {
 					if (e.IsRepeat)
-						return;
-					State.KeyDown((Key)e.Key);
+						State.KeyRepeat((Key)e.Key);
+					else
+						State.KeyDown((Key)e.Key);
 				}
 			};
 			window.KeyUp += (sender, e) => {

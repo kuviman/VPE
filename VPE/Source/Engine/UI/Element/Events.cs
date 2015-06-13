@@ -218,6 +218,20 @@ namespace VitPro.Engine.UI {
 		}
 
 		/// <summary>
+		/// Occurs when a key is repeated.
+		/// </summary>
+		public event Action<Key> OnKeyRepeat;
+
+		/// <summary>
+		/// Handles key repeat event.
+		/// </summary>
+		/// <param name="key">Key repeated.</param>
+		public virtual void KeyRepeat(Key key) {
+			if (OnKeyRepeat != null)
+				OnKeyRepeat.Invoke(key);
+		}
+
+		/// <summary>
 		/// Occurs when a key is released.
 		/// </summary>
 		public event Action<Key> OnKeyUp;

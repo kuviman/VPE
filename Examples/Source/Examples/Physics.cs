@@ -22,8 +22,8 @@ namespace VitPro.Engine.Examples {
 				for (int i = 0; i < n; i++)
 					vs[i] = Vec2.Rotate(Vec2.OrtX * 50, i * 2 * Math.PI / n);
 				rad = 0;
-				foreach (var v in vs)
-					rad = Math.Max(rad, v.Length);
+				foreach (var vv in vs)
+					rad = Math.Max(rad, vv.Length);
 				color = Color.FromHSV(GRandom.NextDouble(), 1, 1, 0.5);
 				a = GRandom.NextDouble(0, 2 * Math.PI);
 				v = Vec2.Zero;
@@ -151,7 +151,7 @@ namespace VitPro.Engine.Examples {
 			base.Update(dt);
 			const int count = 1;
 			if (last != null) {
-				Vec2 v;
+				Vec2 v = Vec2.Zero;
 				if (Key.W.Pressed())
 					v.Y += 1;
 				if (Key.A.Pressed())

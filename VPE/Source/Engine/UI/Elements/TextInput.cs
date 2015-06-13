@@ -104,7 +104,22 @@ namespace VitPro.Engine.UI {
 		/// <param name="key">Key pressed.</param>
 		public override void KeyDown(Key key) {
 			base.KeyDown(key);
-			if (key == Key.BackSpace && Value.Length != 0) {
+			if (key == Key.BackSpace)
+				Backspace();
+		}
+
+		/// <summary>
+		/// Handles key repeat event.
+		/// </summary>
+		/// <param name="key">Key repeated.</param>
+		public override void KeyRepeat(Key key) {
+			base.KeyRepeat(key);
+			if (key == Key.BackSpace)
+				Backspace();
+		}
+
+		void Backspace() {
+			if (Value.Length != 0) {
 				Value = Value.Substring(0, Value.Length - 1);
 				if (OnChanging != null)
 					OnChanging.Invoke(Value);

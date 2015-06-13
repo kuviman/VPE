@@ -38,6 +38,12 @@ namespace VitPro.Engine {
 		public virtual void KeyDown(Key key) {}
 
 		/// <summary>
+		/// Handles key repeat event.
+		/// </summary>
+		/// <param name="key">Key repeated.</param>
+		public virtual void KeyRepeat(Key key) {}
+
+		/// <summary>
 		/// Handles key up event.
 		/// </summary>
 		/// <param name="key">Key released.</param>

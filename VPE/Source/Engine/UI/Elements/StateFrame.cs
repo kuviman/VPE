@@ -80,13 +80,23 @@ namespace VitPro.Engine.UI {
 		}
 
 		/// <summary>
+		/// Handles key repeat event.
+		/// </summary>
+		/// <param name="key">Key repeated.</param>
+		public override void KeyRepeat(Key key) {
+			base.KeyRepeat(key);
+			if (state != null)
+				state.KeyRepeat(key);
+		}
+
+		/// <summary>
 		/// Handles key up event.
 		/// </summary>
 		/// <param name="key">Key released.</param>
 		public override void KeyUp(Key key) {
 			base.KeyUp(key);
 			if (state != null)
-				state.KeyDown(key);
+				state.KeyUp(key);
 		}
 
 		/// <summary>

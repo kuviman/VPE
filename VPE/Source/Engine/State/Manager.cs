@@ -51,6 +51,16 @@ namespace VitPro.Engine {
 			}
 
 			/// <summary>
+			/// Handles key repeat event.
+			/// </summary>
+			/// <param name="key">Key repeated.</param>
+			public override void KeyRepeat(Key key) {
+				base.KeyRepeat(key);
+				if (CurrentState != null)
+					CurrentState.KeyRepeat(key);
+			}
+
+			/// <summary>
 			/// Handles key up event.
 			/// </summary>
 			/// <param name="key">Key released.</param>
