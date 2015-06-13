@@ -6,7 +6,7 @@ namespace VitPro.Engine {
 	/// <summary>
 	/// Blend mode.
 	/// </summary>
-	enum BlendMode {
+	public enum BlendMode {
 		
 		/// <summary>
 		/// The default blend mode.
