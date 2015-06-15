@@ -13,6 +13,7 @@ namespace VitPro.Engine.Examples {
 			Selector.Register<RandomFigures>();
 			Selector.Register<Test>();
 			Selector.Register<BlendModes>();
+			Selector.Register<Pong>();
 		}
 
 		public static void Main() {
@@ -80,6 +81,10 @@ namespace VitPro.Engine.Examples {
 
 		public static void SelectState(State state) {
 			manager.ChangeState(state);
+			if (state != null)
+				nameLabel.Text = state.GetType().Name;
+			else
+				manager.Close();
 		}
 
 		public Examples() {
@@ -126,6 +131,8 @@ namespace VitPro.Engine.Examples {
 			Frame.Add(fpsLabel);
 
 			Focus = stateFrame;
+
+			SelectState(new Info());
 		}
 
 		public override void Update(double dt) {
@@ -134,8 +141,6 @@ namespace VitPro.Engine.Examples {
             fpsLabel.Text = "FPS: " + ((int)App.FPS).ToString();
 			if (manager.Closed)
 				Close();
-			if (SelectedState != null)
-				nameLabel.Text = SelectedState.GetType().Name;
 			bar.Size = new Vec2(Frame.Size.X, 60);
 			stateFrame.Size = new Vec2(Frame.Size.X, Frame.Size.Y - 60);
 		}
@@ -161,7 +166,7 @@ namespace VitPro.Engine.Examples {
 
 		UI.Element bar = new UI.Element();
 
-		UI.Label nameLabel = new UI.Label("", 30);
+		static UI.Label nameLabel = new UI.Label("", 30);
 		UI.Label fpsLabel = new UI.Label("", 16);
 
 		UI.StateFrame stateFrame;
