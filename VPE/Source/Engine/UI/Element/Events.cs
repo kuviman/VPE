@@ -55,8 +55,10 @@ namespace VitPro.Engine.UI {
 		/// </summary>
 		/// <param name="button">Button released.</param>
 		public virtual void MouseUp(MouseButton button, Vec2 position) {
-			if (mouseFocus != null)
-				mouseFocus.MouseUp(button, position);
+			foreach (var child in children) {
+				if (child.Inside(position) || mouseFocus == child)
+					child.MouseUp(button, position);
+			}
 			mouseFocus = null;
 			if (Pressed) {
 				Release();
