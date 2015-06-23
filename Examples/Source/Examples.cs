@@ -154,6 +154,7 @@ namespace VitPro.Engine.Examples {
 //		}
 
 		public override void Render() {
+			Draw.Clear(Settings.BackgroundColor);
 			base.Render();
 //			RenderState.Push();
 //			RenderState.View2d(0, Frame.Size.X, 0, Frame.Size.Y);

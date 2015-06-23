@@ -152,7 +152,7 @@ namespace VitPro.Engine.Examples {
 			}
 
 			public PhysicsState() {
-				world.Add(new VitPro.Physics.Body(new Vec2(0, 0), new Vec2(1000, 0)));
+				AddLine(new Vec2(-2000, 0), new Vec2(2000, 0));
 			}
 
 			public override void KeyDown(Key key) {
@@ -183,11 +183,13 @@ namespace VitPro.Engine.Examples {
 		}
 
 		PhysicsState state;
+		UI.StateFrame stateFrame;
+		UI.ElementList blist;
 
 		public Physics() {
 			Zoom = Settings.ZoomUI;
 			state = new PhysicsState();
-			Background = state;
+			blist = new UI.ElementList();
 			var list = new UI.ElementList();
 			list.Horizontal = true;
 			list.Add(new UI.Label("Restitution:"));
@@ -200,11 +202,26 @@ namespace VitPro.Engine.Examples {
 			frScale.Value = state.Friction;
 			frScale.OnChanging += (double val) => state.Friction = (val);
 			list.Add(frScale);
-			list.Anchor = list.Origin = new Vec2(0.5, 0);
-			Frame.Add(list);
+
+			blist.Add(list);
+			blist.Add(new UI.Button("RESET", () => state.NextState = state = new PhysicsState()));
+
+			Frame.Add(blist);
+			blist.Anchor = blist.Origin = new Vec2(0.5, 0);
+
+			stateFrame = new UI.StateFrame(state);
+			stateFrame.Anchor = stateFrame.Origin = new Vec2(0, 1);
+//			stateFrame.BorderColor = Color.Black;
+			Frame.Add(stateFrame);
+
 			Frame.Visit((elem) => {
 				elem.TextColor = Color.Black;
 			});
+		}
+
+		public override void Update(double dt) {
+			base.Update(dt);
+			stateFrame.Size = Frame.Size - new Vec2(0, blist.Size.Y);
 		}
 
 
