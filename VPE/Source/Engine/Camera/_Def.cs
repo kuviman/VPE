@@ -1,50 +1,56 @@
 ﻿using System;
-using OpenTK.Graphics.OpenGL;
 
 namespace VitPro.Engine {
 
+	/// <summary>
+	/// 3d camera.
+	/// </summary>
 	[Serializable]
 	public class Camera {
 
-		public Vec2 Position { get; set; }
+		/// <summary>
+		/// Gets or sets the position.
+		/// </summary>
+		/// <value>The position.</value>
+		public Vec3 Position { get; set; }
+
+		/// <summary>
+		/// Gets or sets the rotation.
+		/// </summary>
+		/// <value>The rotation.</value>
 		public double Rotation { get; set; }
 
+		/// <summary>
+		/// Gets or sets up angle.
+		/// </summary>
+		/// <value>Up angle.</value>
+		public double UpAngle { get; set; }
+
+		/// <summary>
+		/// Gets or sets the field of view.
+		/// </summary>
+		/// <value>The field of view.</value>
 		public double FOV { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VitPro.Engine.Camera"/> class.
+		/// </summary>
+		/// <param name="fov">Field of view.</param>
 		public Camera(double fov) {
 			FOV = fov;
-			Position = Vec2.Zero;
-			Rotation = 0;
 		}
 
-		public Camera Clone() {
-			return MemberwiseClone() as Camera;
-		}
-
+		/// <summary>
+		/// Apply the camera view.
+		/// </summary>
 		public void Apply() {
-			float h = (float)(FOV / 2);
-			float w = (float)(h * RenderState.Aspect);
-
-			var rot = OpenTK.Matrix4d.CreateRotationZ((float)(-Rotation));
-			var trans = OpenTK.Matrix4d.CreateTranslation((float)-Position.X, (float)-Position.Y, 0);
-			var ortho = OpenTK.Matrix4d.CreateOrthographicOffCenter(-w, w, -h, h, -1, 1);
-			RenderState.ProjectionMatrix = new Mat4(trans * rot * ortho);
+			RenderState.ProjectionMatrix = new Mat4(
+				OpenTK.Matrix4d.CreateTranslation(-Position.X, -Position.Y, -Position.Z)
+				* OpenTK.Matrix4d.CreateRotationZ(-Rotation)
+				* OpenTK.Matrix4d.CreateRotationX(-UpAngle - Math.PI / 2)
+				* OpenTK.Matrix4d.Perspective(FOV, RenderState.Aspect, 0.1, 1e5));
+			RenderState.DepthTest = true;
 		}
-
-		public Vec2 FromWH(Vec2 pos, double width, double height) {
-			pos = new Vec2(pos.X / width, pos.Y / height);
-			double aspect = width / height;
-			double h = FOV / 2;
-			double w = h * aspect;
-			double x = w * (2 * pos.X - 1);
-			double y = h * (2 * pos.Y - 1);
-			var result = Vec2.Rotate(new Vec2(x, y), Rotation);
-			result += Position;
-			return result;
-		}
-
-		public Vec2 OrtX { get { return Vec2.Rotate(Vec2.OrtX, Rotation); } }
-		public Vec2 OrtY { get { return Vec2.Rotate(Vec2.OrtY, Rotation); } }
 
 	}
 

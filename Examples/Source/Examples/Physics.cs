@@ -3,266 +3,211 @@ using System.Collections.Generic;
 
 namespace VitPro.Engine.Examples {
 
-	class Physics : State {
+	class Physics : UI.State {
+		
+		class PhysicsState : State {
 
-		class Body {
-			public Vec2[] vs;
-			public Vec2 p, v;
-			public double a, w;
-			public double m, I;
-
-			public double rad;
-
-			public Color color;
-
-			public Body(Vec2 pos) {
-				p = pos;
-				int n = GRandom.Next(3, 8);
-				vs = new Vec2[n];
-				for (int i = 0; i < n; i++)
-					vs[i] = Vec2.Rotate(Vec2.OrtX * 50, i * 2 * Math.PI / n);
-				rad = 0;
-				foreach (var vv in vs)
-					rad = Math.Max(rad, vv.Length);
-				color = Color.FromHSV(GRandom.NextDouble(), 1, 1, 0.5);
-				a = GRandom.NextDouble(0, 2 * Math.PI);
-				v = Vec2.Zero;
-				w = 0;
-				m = 1;
-				I = 0;
-				double div = 0;
-				for (int i = 0; i < n; i++) {
-					int j = (i + 1) % n;
-					I += Vec2.Skew(vs[i], vs[j]) * (vs[i].SqrLength + vs[j].SqrLength + Vec2.Dot(vs[i], vs[j]));
-					div += Vec2.Skew(vs[i], vs[j]);
+			class Body {
+				public VitPro.Physics.Body body;
+				Color color = Color.FromHSV(GRandom.NextDouble(), 1, 1);
+				public Body(Vec2 pos) {
+					int n = GRandom.Next(3, 6);
+					Vec2[] vs = new Vec2[n];
+					for (int i = 0; i < n; i++)
+						vs[i] = Vec2.Rotate(Vec2.OrtX, i * 2 * Math.PI / n) * 50;
+					body = new VitPro.Physics.Body(1, vs);
+					body.Position = pos;
 				}
-				I = m / 6 * I / div;
+				public void Render() {
+					RenderState.Push();
+					RenderState.Color = color;
+					var vs = new List<Vec2>(body.Vertices).ToArray();
+					Draw.Polygon(vs);
+					RenderState.Color = Color.Black;
+					for (int i = 0; i < vs.Length; i++) {
+						int j = (i + 1) % vs.Length;
+						Draw.Line(vs[i], vs[j], 5);
+					}
+					RenderState.Pop();
+				}
 			}
 
-			public void Apply(Vec2 impulse, Vec2 point) {
-				v += impulse / m;
-				w += Vec2.Skew(point - p, impulse) / I;
+			List<Body> bodies = new List<Body>();
+
+			Body current = null;
+			Body last = null;
+
+			Vec2? p1 = null;
+
+			public override void MouseDown(MouseButton button, Vec2 position) {
+				base.MouseDown(button, position);
+				if (button == MouseButton.Left)
+					current = new Body(position);
+				else
+					p1 = position;
 			}
 
-			public Vec2 getV(Vec2 point) {
-				return v + Vec2.Rotate90(point - p) * w;
+			public override void MouseUp(MouseButton button, Vec2 position) {
+				base.MouseUp(button, position);
+				if (button == MouseButton.Left) {
+					current.body.Velocity = position - current.body.Position;
+					bodies.Add(current);
+					world.Add(current.body);
+					last = current;
+					current = null;
+				} else {
+					AddLine(p1.Value, position);
+					p1 = null;
+				}
 			}
 
-			public void Update(double dt) {
-				p += v * dt;
-				a += w * dt;
+			public VitPro.Physics.World world = new VitPro.Physics.World();
+
+			class Line {
+				Vec2 p1, p2;
+				public Line(Vec2 p1, Vec2 p2) {
+					this.p1 = p1;
+					this.p2 = p2;
+				}
+				public void Render() {
+					RenderState.Push();
+					RenderState.Color = Color.Black;
+					Draw.Line(p1, p2, 10);
+					RenderState.Pop();
+				}
+			}
+			List<Line> lines = new List<Line>();
+
+			void AddLine(Vec2 p1, Vec2 p2) {
+				lines.Add(new Line(p1, p2));
+				var body = new VitPro.Physics.Body(p1, p2);
+				body.COF = Friction;
+				body.COR = Restitution;
+				world.Add(body);
 			}
 
-			public void Render() {
+			public override void Update(double dt) {
+				base.Update(dt);
+				const int count = 1;
+				if (last != null) {
+					Vec2 v = Vec2.Zero;
+					if (Key.W.Pressed())
+						v.Y += 1;
+					if (Key.A.Pressed())
+						v.X -= 1;
+					if (Key.S.Pressed())
+						v.Y -= 1;
+					if (Key.D.Pressed())
+						v.X += 1;
+					last.body.Velocity += v * 1000 * dt;
+					double w = 0;
+					if (Key.Left.Pressed())
+						w += 1;
+					if (Key.Right.Pressed())
+						w -= 1;
+					last.body.AngularVelocity += w * 10 * dt;
+				}
+				foreach (var body in world.Bodies) {
+					body.COF = Friction;
+					body.COR = Restitution;
+				}
+				for (int i = 0; i < count; i++) {
+					var rdt = dt / count;
+					foreach (var b in bodies)
+						b.body.Velocity += new Vec2(0, -1000) * rdt;
+					world.Update(rdt);
+				}
+			}
+
+			double w = 1, h = 1;
+
+			Vec2 mousePosition;
+
+			public override void MouseMove(Vec2 position) {
+				base.MouseMove(position);
+				mousePosition = position;
+			}
+
+			public override void Render() {
+				base.Render();
+				w = RenderState.Width;
+				h = RenderState.Height;
+				Draw.Clear(Settings.BackgroundColor);
 				RenderState.Push();
-				RenderState.Translate(p);
-				RenderState.Rotate(a);
-				RenderState.Color = color;
-				Draw.Polygon(vs);
-				RenderState.Color = Color.Black;
-				for (int i = 0; i < vs.Length; ++i) {
-					int j = (i + 1) % vs.Length;
-					Draw.Line(vs[i], vs[j], 4);
-					Draw.Circle(vs[i], 2);
+				RenderState.View2d(0, w, 0, h);
+				foreach (var body in bodies)
+					body.Render();
+				foreach (var line in lines)
+					line.Render();
+				if (current != null) {
+					current.Render();
+					RenderState.Color = Color.Red;
+					Draw.Line(current.body.Position, mousePosition, 3);
+				}
+				if (p1 != null) {
+					RenderState.Color = Color.Blue;
+					Draw.Line(p1.Value, mousePosition, 3);
 				}
 				RenderState.Pop();
 			}
 
-			public IEnumerable<Vec2> points {
-				get {
-					foreach (var p in vs) {
-						yield return this.p + Vec2.Rotate(p, a);
-					}
+			public PhysicsState() {
+				world.Add(new VitPro.Physics.Body(new Vec2(0, 0), new Vec2(1000, 0)));
+			}
+
+			public override void KeyDown(Key key) {
+				base.KeyDown(key);
+				if (key == Key.R) {
+					world = new VitPro.Physics.World();
+					bodies = new List<Body>();
+					lines = new List<Line>();
 				}
 			}
-		}
 
-		static Tuple<Double,Vec2> Collide(Body body, Vec2 p, Vec2 n) {
-			double pen = -1e9;
-			Vec2 r = Vec2.Zero;
-			foreach (var point in body.points) {
-				var cur = Vec2.Dot(p - point, n);
-				if (cur > pen) {
-					pen = cur;
-					r = point;
+			double _res = 0.7, _fr = 0.1;
+
+			public double Restitution {
+				get { return _res; }
+				set {
+					_res = value;
 				}
 			}
-			return Tuple.Create(pen, r);
-		}
 
-		static Tuple<Double,Vec2,Vec2> Collide(Body b1, Body b2) {
-			double pen = 1e9;
-            Vec2 p = Vec2.Zero;
-			Vec2 n = Vec2.Zero;
-			var v1 = new List<Vec2>(b1.points).ToArray();
-			var v2 = new List<Vec2>(b2.points).ToArray();
-			for (int i = 0; i < v1.Length; i++) {
-				var curN = Vec2.Rotate90(v1[i] - v1[(i + 1) % v1.Length]).Unit;
-				Tuple<Double, Vec2> cur = Collide(b2, v1[i], curN);
-				if (cur.Item1 < pen) {
-					pen = cur.Item1;
-					p = cur.Item2;
-					n = -curN;
+			public double Friction {
+				get { return _fr; }
+				set {
+					_fr = value;
 				}
 			}
-			for (int i = 0; i < v2.Length; i++) {
-				var curN = Vec2.Rotate90(v2[i] - v2[(i + 1) % v2.Length]).Unit;
-				Tuple<Double, Vec2> cur = Collide(b1, v2[i], curN);
-				if (cur.Item1 < pen) {
-					pen = cur.Item1;
-					p = cur.Item2;
-					n = curN;
-				}
-			}
-			return Tuple.Create(pen, p, n);
+
 		}
 
-		static double CalcJ0(double im1, double im2, Vec2 r1, Vec2 r2, double iI1, double iI2, Vec2 v1, Vec2 v2, Vec2 n, double E) {
-			double z1 = -Vec2.Skew(r1, n) * iI1;
-			double z2 = -Vec2.Skew(r2, n) * iI1;
-			var j = Vec2.Dot(v2 - v1, n) / (im1 + im2 + Vec2.Skew(n, r1 * z1) + Vec2.Skew(n, r2 * z2));
-			return j;
+		PhysicsState state;
+
+		public Physics() {
+			Zoom = Settings.ZoomUI;
+			state = new PhysicsState();
+			Background = state;
+			var list = new UI.ElementList();
+			list.Horizontal = true;
+			list.Add(new UI.Label("Restitution:"));
+			var resScale = new UI.Scale(100, 20);
+			resScale.Value = state.Restitution;
+			resScale.OnChanging += (double val) => state.Restitution = (val);
+			list.Add(resScale);
+			list.Add(new UI.Label("Friction:"));
+			var frScale = new UI.Scale(100, 20);
+			frScale.Value = state.Friction;
+			frScale.OnChanging += (double val) => state.Friction = (val);
+			list.Add(frScale);
+			list.Anchor = list.Origin = new Vec2(0.5, 0);
+			Frame.Add(list);
+			Frame.Visit((elem) => {
+				elem.TextColor = Color.Black;
+			});
 		}
 
-		static double CalcJ(double im1, double im2, Vec2 r1, Vec2 r2, double iI1, double iI2, Vec2 v1, Vec2 v2, Vec2 n, double E) {
-			var j = (1 + E) * CalcJ0(im1, im2, r1, r2, iI1, iI2, v1, v2, n, E);
-			return j;
-		}
 
-		List<Body> bodies = new List<Body>();
-
-		Body current = null;
-		Body last = null;
-
-		public override void MouseDown(MouseButton button, Vec2 position) {
-			base.MouseDown(button, position);
-			current = new Body(position);
-		}
-
-		public override void MouseUp(MouseButton button, Vec2 position) {
-			base.MouseUp(button, position);
-			current.v = position - current.p;
-			bodies.Add(current);
-			last = current;
-			current = null;
-		}
-
-		public override void Update(double dt) {
-			base.Update(dt);
-			const int count = 1;
-			if (last != null) {
-				Vec2 v = Vec2.Zero;
-				if (Key.W.Pressed())
-					v.Y += 1;
-				if (Key.A.Pressed())
-					v.X -= 1;
-				if (Key.S.Pressed())
-					v.Y -= 1;
-				if (Key.D.Pressed())
-					v.X += 1;
-				last.v += v * 1000 * dt;
-				double w = 0;
-				if (Key.Left.Pressed())
-					w += 1;
-				if (Key.Right.Pressed())
-					w -= 1;
-				last.w += w * 10 * dt;
-			}
-			for (int i = 0; i < count; i++) {
-				Tick(dt / count);
-			}
-		}
-
-		void Tick(double dt) {
-			if (Key.Space.Pressed())
-				dt /= 5;
-			foreach (var body in bodies) {
-//				body.v += new Vec2(0, -1000) * dt;
-				body.Update(dt);
-				checkWall(body, new Vec2(0, 0), new Vec2(1, 0));
-				checkWall(body, new Vec2(0, 0), new Vec2(0, 1));
-				checkWall(body, new Vec2(w, 0), new Vec2(-1, 0));
-				checkWall(body, new Vec2(0, h), new Vec2(0, -1));
-				foreach (var b2 in bodies) {
-					if (body != b2)
-						check(body, b2);
-				}
-			}
-		}
-
-		static double E = 0.7, EF = 0.1;
-		static double EPS = 10;
-
-		static void check(Body b1, Body b2) {
-			if ((b1.p - b2.p).SqrLength > GMath.Sqr(b1.rad + b2.rad))
-				return;
-			Tuple<double, Vec2, Vec2> r = Collide(b1, b2);
-			if (r.Item1 < 0)
-				return;
-
-			b1.p += r.Item1 * r.Item3 / 2;
-			b2.p -= r.Item1 * r.Item3 / 2;
-
-			Vec2 n = r.Item3;
-			var j = CalcJ(1 / b1.m, 1 / b2.m, r.Item2 - b1.p, r.Item2 - b2.p, 
-				1 / b1.I, 1 / b2.I, b1.getV(r.Item2), b2.getV(r.Item2), n, E);
-			j = Math.Max(j, 0);
-
-			Vec2 t = Vec2.Rotate90(n);
-			if (Vec2.Dot(t, b1.getV(r.Item2) - b2.getV(r.Item2)) > 0)
-				t = -t;
-			var jf = j * EF;
-			b1.Apply(jf * t, r.Item2);
-			b1.Apply(jf * t, r.Item2);
-			b1.Apply(j * n, r.Item2);
-			b2.Apply(-j * n, r.Item2);
-		}
-
-		static void checkWall(Body b, Vec2 p, Vec2 n) {
-			Tuple<double, Vec2> pen = Collide(b, p, n);
-			if (pen.Item1 < 0)
-				return;
-			
-			b.p += pen.Item1 * n;
-
-			var o = pen.Item2;
-			var J = CalcJ(1 / b.m, 0, o - b.p, Vec2.Zero, 1 / b.I, 0, b.getV(o), Vec2.Zero, n, E);
-			J = Math.Max(J, 0);
-
-			Vec2 t = Vec2.Rotate90(n);
-			if (Vec2.Dot(t, b.getV(o)) > 0)
-				t = -t;
-			var JF = J * EF;
-//			JF = Math.Min(JF, (EPS + Math.Abs(Vec2.Dot(b.getV(o), t)) * b.m));
-			b.Apply(JF * t, o);
-			b.Apply(J * n, o);
-		}
-
-		double w = 1, h = 1;
-
-		Vec2 mousePosition;
-
-		public override void MouseMove(Vec2 position) {
-			base.MouseMove(position);
-			mousePosition = position;
-		}
-
-		public override void Render() {
-			base.Render();
-			w = RenderState.Width;
-			h = RenderState.Height;
-			Draw.Clear(Settings.BackgroundColor);
-			RenderState.Push();
-			RenderState.View2d(0, w, 0, h);
-			foreach (var body in bodies)
-				body.Render();
-			if (current != null) {
-				current.Render();
-				RenderState.Color = Color.Red;
-				Draw.Line(current.p, mousePosition, 3);
-			}
-			RenderState.Pop();
-		}
 
 	}
 
