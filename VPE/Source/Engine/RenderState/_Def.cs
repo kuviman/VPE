@@ -18,14 +18,15 @@ namespace VitPro.Engine {
 			ProjectionMatrix = Mat4.Identity;
 			ModelMatrix = Mat4.Identity;
 			Color = new Color(1, 1, 1, 1);
-			Set("textureMatrix", Mat3.Identity);
 			DepthTest = false;
 			BlendMode = BlendMode.Default;
 		}
 
 		internal static Dictionary<string, Stack<Tuple<Shader.IUniform, int>>> uniforms =
 			new Dictionary<string, Stack<Tuple<Shader.IUniform, int>>>();
-		static int version = 0;
+		internal static int version = 0;
+
+        internal static Stack<Tuple<Shader, int>> preparedShaders = new Stack<Tuple<Shader, int>>();
 
 		/// <summary>
 		/// Push (save) current render state.
@@ -48,6 +49,10 @@ namespace VitPro.Engine {
 			}
 			foreach (var key in toRemove)
 				uniforms.Remove(key);
+
+            while (preparedShaders.Count > 0 && preparedShaders.Peek().Item2 > version) {
+                preparedShaders.Pop().Item1.Unprepare();
+            }
 		}
 
 		static void Set(string name, Shader.IUniform uniform) {

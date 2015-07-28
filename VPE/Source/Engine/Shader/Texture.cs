@@ -16,7 +16,7 @@ namespace VitPro.Engine {
 			RenderState.Color = color;
 			RenderState.Set("texture", texture);
 			Draw.Clear(Color.TransparentBlack);
-			RenderState.View2d(0, 1, 0, 1);
+			RenderState.View2d(0, 0, 1, 1);
 			RenderQuad();
 			RenderState.EndTexture();
 			return tex;

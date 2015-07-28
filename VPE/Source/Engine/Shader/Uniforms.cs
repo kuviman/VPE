@@ -5,9 +5,13 @@ using OpenTK.Graphics.OpenGL;
 namespace VitPro.Engine {
 	
 	partial class Shader {
+
+        Dictionary<string, int> uniformLocations = new Dictionary<string, int>();
 		
 		int UniformLocation(string name) {
-			return GL.GetUniformLocation(program, name);
+            if (!uniformLocations.ContainsKey(name))
+                uniformLocations[name] = GL.GetUniformLocation(program, name);
+            return uniformLocations[name];
 		}
 
 		internal interface IUniform {
@@ -101,11 +105,31 @@ namespace VitPro.Engine {
 			}
 		}
 
+        int prepared = -1;
+        int preparedTextures = 0;
+        int uniformTextures = 0;
+
 		void ApplyUniforms() {
-			int textures = 0;
-			foreach (var item in RenderState.uniforms)
-				item.Value.Peek().Item1.apply(UniformLocation(item.Key), ref textures);
+            uniformTextures = preparedTextures;
+            foreach (var item in RenderState.uniforms) {
+                if (item.Value.Peek().Item2 > prepared)
+                    item.Value.Peek().Item1.apply(UniformLocation(item.Key), ref uniformTextures);
+            }
 		}
+
+        internal void Unprepare() {
+            prepared = -1;
+            preparedTextures = 0;
+        }
+
+        public void Prepare() {
+            prepared = -1;
+            GL.UseProgram(program);
+            ApplyUniforms();
+            preparedTextures = uniformTextures;
+            prepared = RenderState.version;
+            RenderState.preparedShaders.Push(Tuple.Create(this, prepared));
+        }
 
 	}
 

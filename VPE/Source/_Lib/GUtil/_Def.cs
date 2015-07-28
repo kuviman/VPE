@@ -18,6 +18,19 @@ namespace VitPro {
 			b = c;
 		}
 
+        public static byte[] Serialize(object o) {
+            var f = new MemoryStream();
+            var fmt = new BinaryFormatter();
+            fmt.Serialize(f, o);
+            return f.ToArray();
+        }
+
+        public static T Deserialize<T>(byte[] bytes) {
+            var f = new MemoryStream(bytes);
+            var fmt = new BinaryFormatter();
+            return (T)fmt.Deserialize(f);
+        }
+
 		/// <summary>
 		/// Serialize object into a file.
 		/// </summary>

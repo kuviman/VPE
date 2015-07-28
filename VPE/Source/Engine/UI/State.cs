@@ -51,7 +51,7 @@ namespace VitPro.Engine.UI {
 			for (int i = 0; i < 10; i++)
 				Frame.Update(0);
 			RenderState.Push();
-			RenderState.View2d(0, Frame.Size.X, 0, Frame.Size.Y);
+			RenderState.View2d(0, 0, Frame.Size.X, Frame.Size.Y);
 			Frame.Render();
 			RenderState.Pop();
 		}

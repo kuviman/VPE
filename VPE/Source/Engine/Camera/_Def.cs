@@ -14,6 +14,12 @@ namespace VitPro.Engine {
 		/// <value>The position.</value>
 		public Vec3 Position { get; set; }
 
+        /// <summary>
+        /// Gets or sets distance from the camera to the target position.
+        /// </summary>
+        /// <value>The distance.</value>
+        public double Distance { get; set; }
+
 		/// <summary>
 		/// Gets or sets the rotation.
 		/// </summary>
@@ -44,11 +50,12 @@ namespace VitPro.Engine {
 		/// Apply the camera view.
 		/// </summary>
 		public void Apply() {
-			RenderState.ProjectionMatrix = new Mat4(
-				OpenTK.Matrix4d.CreateTranslation(-Position.X, -Position.Y, -Position.Z)
-				* OpenTK.Matrix4d.CreateRotationZ(-Rotation)
-				* OpenTK.Matrix4d.CreateRotationX(-UpAngle - Math.PI / 2)
-				* OpenTK.Matrix4d.Perspective(FOV, RenderState.Aspect, 0.1, 1e5));
+			RenderState.ProjectionMatrix = new Mat4(OpenTK.Matrix4d.Perspective(FOV, RenderState.Aspect, 0.1, 1e5));
+            RenderState.ModelMatrix = new Mat4(
+                OpenTK.Matrix4d.CreateTranslation(-Position.X, -Position.Y, -Position.Z)
+                * OpenTK.Matrix4d.CreateRotationZ(-Rotation)
+                * OpenTK.Matrix4d.CreateRotationX(-UpAngle - Math.PI / 2)
+                * OpenTK.Matrix4d.CreateTranslation(0, 0, -Distance));
 			RenderState.DepthTest = true;
 		}
 

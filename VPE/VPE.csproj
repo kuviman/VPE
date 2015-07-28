@@ -27,25 +27,30 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>5</LangVersion>
+    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\..\QGame\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\QGame\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="OpenTK">
-      <HintPath>..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Net\Client.cs" />
+    <Compile Include="Source\Net\Message.cs" />
+    <Compile Include="Source\Net\Server.cs" />
     <Compile Include="Source\_Lib\Vector\Vec2i\_Def.cs" />
     <Compile Include="Source\_Lib\Resource.cs" />
+    <Compile Include="Source\_Lib\Vector\Vec3\Misc.cs" />
     <Compile Include="Source\_Lib\Vector\Vec3\_Def.cs" />
     <Compile Include="Source\_Lib\Vector\Vec3\Algebra.cs" />
     <Compile Include="Source\_Lib\Matrix\Mat4\_Def.cs" />
@@ -149,19 +154,5 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Source\_Lib\GRandom\" />
-    <Folder Include="Source\_Lib\GMath\" />
-    <Folder Include="Source\_Lib\GUtil\" />
-    <Folder Include="Source\_Lib\Group\" />
-    <Folder Include="Resources\Shaders\" />
-    <Folder Include="Resources\Shaders\Vertex\" />
-    <Folder Include="Resources\Shaders\Fragment\" />
-    <Folder Include="Resources\Shaders\Lib\" />
-    <Folder Include="Source\Engine\View\" />
-    <Folder Include="Source\Engine\Camera\" />
-    <Folder Include="Source\Physics\" />
-    <Folder Include="Source\Physics\Body\" />
-    <Folder Include="Source\Physics\World\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -60,14 +60,6 @@ namespace VitPro {
 		/// <value>The y ort vector.</value>
 		public static Vec2i OrtY { get { return _ortY; } }
 
-		public static bool operator ==(Vec2i a, Vec2i b) {
-			return a.X == b.X && a.Y == b.Y;
-		}
-
-		public static bool operator !=(Vec2i a, Vec2i b) {
-			return a.X != b.X || a.Y != b.Y;
-		}
-
 	}
 
 }
