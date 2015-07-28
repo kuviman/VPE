@@ -42,6 +42,11 @@ namespace VitPro.Engine.UI {
 
 		internal IFont RealFont { get { return Font == null ? Draw.Font : Font; } }
 
+        /// <summary>
+        /// If not null, width of the element will not depend on text width.
+        /// </summary>
+        public double? FixedWidth { get; set; }
+
 		void UpdateText() {
 			if (Text == null)
 				return;
@@ -49,6 +54,8 @@ namespace VitPro.Engine.UI {
 			Size = new Vec2(padding, padding) * 2;
 			foreach (var line in Text.Split('\n'))
 				Size = new Vec2(Math.Max(Size.X, padding * 2 + TextSize * RealFont.Measure(line)), Size.Y + TextSize);
+            if (FixedWidth != null)
+                Size = new Vec2(FixedWidth.Value, Size.Y);
 		}
 
 		void RenderText() {

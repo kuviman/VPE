@@ -14,7 +14,8 @@ namespace VitPro.Engine.UI {
 		/// <param name="size">Size.</param>
 		/// <param name="action">Action.</param>
 		public Button(string text, Action action, double size = 20) {
-			OnClick += action;
+			if (action != null)
+                OnClick += action;
 			Text = text;
 			TextSize = size;
 			TextColor = Color.Gray;
