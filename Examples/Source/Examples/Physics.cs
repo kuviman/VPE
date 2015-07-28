@@ -134,7 +134,7 @@ namespace VitPro.Engine.Examples {
 				h = RenderState.Height;
 				Draw.Clear(Settings.BackgroundColor);
 				RenderState.Push();
-				RenderState.View2d(0, w, 0, h);
+                RenderState.View2d(0, 0, w, h);
 				foreach (var body in bodies)
 					body.Render();
 				foreach (var line in lines)
