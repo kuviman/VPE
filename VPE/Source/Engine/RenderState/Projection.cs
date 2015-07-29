@@ -18,10 +18,10 @@ namespace VitPro.Engine {
 		/// Setup a 2d view.
 		/// </summary>
 		/// <param name="left">Coordinate of the left side of the screen.</param>
-		/// <param name="right">Coordinate of the right side of the screen.</param>
 		/// <param name="bottom">Coordinate of the bottom side of the screen.</param>
+		/// <param name="right">Coordinate of the right side of the screen.</param>
 		/// <param name="top">Coordinate of the top side of the screen.</param>
-		public static void View2d(double left, double right, double bottom, double top) {
+		public static void View2d(double left, double bottom, double right, double top) {
 			ProjectionMatrix = new Mat4(OpenTK.Matrix4d.CreateOrthographicOffCenter(left, right, bottom, top, -1, 1));
 		}
 
@@ -32,7 +32,7 @@ namespace VitPro.Engine {
 		public static void View2d(double fov) {
 			double h = fov / 2;
 			double w = h * RenderState.Aspect;
-			View2d(-w, w, -h, h);
+			View2d(-w, -h, w, h);
 		}
 
 		/// <summary>

@@ -77,7 +77,7 @@ namespace VitPro.Engine {
 			RenderState.Set("borderSize", border);
 			RenderState.Set("resultSize", result.Size);
 			RenderState.Color = Color;
-			RenderState.View2d(0, 1, 0, 1);
+			RenderState.View2d(0, 0, 1, 1);
             shader.RenderQuad();
             RenderState.EndTexture();
             result.Smooth = Smooth;

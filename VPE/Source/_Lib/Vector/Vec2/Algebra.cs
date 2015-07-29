@@ -82,7 +82,12 @@ namespace VitPro {
 		/// </summary>
 		/// <value>The unit vector.</value>
 		public Vec2 Unit {
-			get { return this / Length; }
+			get {
+                var len = Length;
+                if (len < 1e-9)
+                    return this;
+                return this / len;
+            }
 		}
 
 	}

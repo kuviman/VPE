@@ -46,6 +46,8 @@ namespace VitPro.Engine {
 				timer.Tick();
 				if (State != null)
 					State.Render();
+				if (RenderState.version != 0)
+					throw new Exception("WTF version is bad");
 				FinalizeGLResources();
 				window.SwapBuffers();
 			};
@@ -66,6 +68,8 @@ namespace VitPro.Engine {
 					else
 						State.KeyDown((Key)e.Key);
 				}
+                if (e.Key == OpenTK.Input.Key.F4 && e.Modifiers.HasFlag(OpenTK.Input.KeyModifiers.Alt))
+                    window.Close();
 			};
 			window.KeyUp += (sender, e) => {
 				if (State != null)
@@ -91,6 +95,9 @@ namespace VitPro.Engine {
 				if (State != null)
 					State.MouseWheel(e.DeltaPrecise);
 			};
+            window.Resize += (sender, e) => {
+                OpenTK.Graphics.OpenGL.GL.Viewport(0, 0, Width, Height);
+            };
 		}
 
 		static Vec2 FixMouse(Vec2 pos) {

@@ -71,7 +71,7 @@ namespace VitPro.Engine {
 		public void RenderPolygon(params Vec3[] vertices) {
 			GL.UseProgram(program);
 			ApplyUniforms();
-			GL.Begin(PrimitiveType.Polygon);
+			GL.Begin(PrimitiveType.TriangleFan);
 			foreach (var vertex in vertices)
 				GL.Vertex3(vertex.X, vertex.Y, vertex.Z);
 			GL.End();

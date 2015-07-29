@@ -45,7 +45,7 @@ namespace VitPro.Engine.Examples {
 					base.Render();
 					RenderState.EndTexture();
 					RenderState.Push();
-					RenderState.View2d(0, 1, 0, 1);
+					RenderState.View2d(0, 0, 1, 1);
 					RenderState.Translate(k, 0);
 					currentTexture.Render();
 					RenderState.Translate(-1, 0);
@@ -154,6 +154,7 @@ namespace VitPro.Engine.Examples {
 //		}
 
 		public override void Render() {
+			Draw.Clear(Settings.BackgroundColor);
 			base.Render();
 //			RenderState.Push();
 //			RenderState.View2d(0, Frame.Size.X, 0, Frame.Size.Y);

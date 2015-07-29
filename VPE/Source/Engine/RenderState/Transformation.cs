@@ -185,6 +185,38 @@ namespace VitPro.Engine {
 			matrix[3, 1] = center.Y;
 			MultMatrix(matrix);
 		}
+
+        public static void FaceCam() {
+            var matrix = ModelMatrix;
+            var sx = new Vec3(matrix[0, 0], matrix[0, 1], matrix[0, 2]).Length;
+            var sz = new Vec3(matrix[1, 0], matrix[1, 1], matrix[1, 2]).Length;
+            var sy = new Vec3(matrix[2, 0], matrix[2, 1], matrix[2, 2]).Length;
+            matrix[0, 0] = sx;
+            matrix[0, 1] = 0;
+            matrix[0, 2] = 0;
+            matrix[1, 1] = sy;
+            matrix[1, 0] = 0;
+            matrix[1, 2] = 0;
+            matrix[2, 2] = sz;
+            matrix[2, 0] = 0;
+            matrix[2, 1] = 0;
+            ModelMatrix = matrix;
+        }
+
+        public static void Billboard() {
+            var matrix = ModelMatrix;
+            var sx = new Vec3(matrix[0, 0], matrix[0, 1], matrix[0, 2]).Length;
+            matrix[0, 0] = sx;
+            matrix[0, 1] = 0;
+            matrix[0, 2] = 0;
+            matrix[1, 1] = matrix[2, 1];
+            matrix[1, 0] = matrix[2, 0];
+            matrix[1, 2] = matrix[2, 2];
+            matrix[2, 2] = 0;
+            matrix[2, 0] = 0;
+            matrix[2, 1] = 0;
+            ModelMatrix = matrix;
+        }
 		
 	}
 

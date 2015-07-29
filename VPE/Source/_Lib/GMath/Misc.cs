@@ -14,5 +14,17 @@ namespace VitPro
 			return diff;
 		}
 
+        public static int DivDown(int a, int b) {
+            if (a < 0)
+                return -DivUp(-a, b);
+            return a / b;
+        }
+
+        public static int DivUp(int a, int b) {
+            if (a < 0)
+                return -DivDown(-a, b);
+            return (a + b - 1) / b;
+        }
+
 	}
 }

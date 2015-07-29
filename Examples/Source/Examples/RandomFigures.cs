@@ -38,7 +38,7 @@ namespace VitPro.Engine.Examples {
 			base.Render();
 			Draw.Clear(Settings.BackgroundColor);
 			RenderState.Push();
-			RenderState.View2d(0, RenderState.Width, 0, RenderState.Height);
+            RenderState.View2d(0, 0, RenderState.Width, RenderState.Height);
 			foreach (var figure in figures) {
 				RenderState.Push();
 				RenderState.Color = figure.color;
