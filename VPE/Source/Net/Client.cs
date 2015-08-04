@@ -4,10 +4,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 
 namespace VitPro.Net {
 
     public class Client<T> {
+
+		static ILog log = LogManager.GetLogger(typeof(Client<T>));
 
 		T model;
         UdpClient udpClient;
@@ -15,7 +18,7 @@ namespace VitPro.Net {
 
         public Client(T model, string address, int port) {
 			this.model = model;
-            Console.WriteLine("Trying to connect to {0}:{1}", address, port);
+			log.Info(string.Format("Trying to connect to {0}:{1}", address, port));
             udpClient = new UdpClient();
             ep = new IPEndPoint(IPAddress.Parse(address), port);
             udpClient.Connect(ep);
