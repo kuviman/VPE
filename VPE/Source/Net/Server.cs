@@ -44,6 +44,10 @@ namespace VitPro.Net {
             }
         }
 
+        public static Tuple<long, long> GetTraffic() {
+            return Tuple.Create(udpServer.GetTrafficSent(), udpServer.GetTrafficReceived());
+        }
+
         public static void Handle(T obj) {
             Tuple<Message<T>, IPEndPoint> message;
             while (messages.TryDequeue(out message)) {

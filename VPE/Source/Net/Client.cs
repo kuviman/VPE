@@ -30,6 +30,10 @@ namespace VitPro.Net {
             }
         }
 
+        public Tuple<long, long> GetTraffic() {
+            return Tuple.Create(udpClient.GetTrafficSent(), udpClient.GetTrafficReceived());
+        }
+
         public void Send(Message<T> message) {
             udpClient.SendMessage(message);
         }

@@ -11,7 +11,7 @@ namespace VitPro.Net {
 
     [Serializable]
     public class MessageList<T> : Message<T> {
-        List<Message<T>> messages = new List<Message<T>>();
+        internal List<Message<T>> messages = new List<Message<T>>();
 
         public void AddMessage(Message<T> message) {
             messages.Add(message);
@@ -48,7 +48,23 @@ namespace VitPro.Net {
     static class UdpServerExt {
         const int MAX_MESSAGE_SIZE = 1000;
         static long idCounter = 0;
+        static Dictionary<UdpClient, long> trafficReceived = new Dictionary<UdpClient, long>();
+        static Dictionary<UdpClient, long> trafficSent = new Dictionary<UdpClient, long>();
         static Dictionary<UdpClient, Dictionary<long, List<MessagePart>>> messages = new Dictionary<UdpClient,Dictionary<long,List<MessagePart>>>();
+
+        public static long GetTrafficReceived(this UdpClient client) {
+            if (trafficReceived.ContainsKey(client))
+                return trafficReceived[client];
+            else
+                return 0;
+        }
+        public static long GetTrafficSent(this UdpClient client) {
+            if (trafficSent.ContainsKey(client))
+                return trafficSent[client];
+            else
+                return 0;
+        }
+
         public static void SendMessage<T>(this UdpClient client, Message<T> message, IPEndPoint ip) {
             byte[] data = GUtil.Serialize(message);
             if (data.Length < MAX_MESSAGE_SIZE)
@@ -66,11 +82,18 @@ namespace VitPro.Net {
             }
         }
         public static void SendMessage<T>(this UdpClient client, Message<T> message) {
-            SendMessage(client, message, null);
+            var list = message as MessageList<T>;
+            if (list != null) {
+                foreach (var part in list.messages)
+                    SendMessage(client, part);
+            } else
+                SendMessage(client, message, null);
         }
         public static Message<T> ReceiveMessage<T>(this UdpClient client, ref IPEndPoint ip) {
             while (true) {
-                var o = GUtil.Deserialize<object>(client.Receive(ref ip));
+                var receivedData = client.Receive(ref ip);
+                trafficReceived[client] = GetTrafficReceived(client) + receivedData.Length;
+                var o = GUtil.Deserialize<object>(receivedData);
                 var message = o as Message<T>;
                 if (message != null)
                     return message;
@@ -98,6 +121,7 @@ namespace VitPro.Net {
         }
 
         static void Send(UdpClient client, byte[] data, IPEndPoint ip) {
+            trafficSent[client] = GetTrafficSent(client) + data.Length;
             if (ip == null)
                 client.Send(data, data.Length);
             else
