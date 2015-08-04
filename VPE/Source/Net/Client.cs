@@ -9,10 +9,12 @@ namespace VitPro.Net {
 
     public class Client<T> {
 
+		T model;
         UdpClient udpClient;
         IPEndPoint ep;
 
-        public Client(string address, int port) {
+        public Client(T model, string address, int port) {
+			this.model = model;
             Console.WriteLine("Trying to connect to {0}:{1}", address, port);
             udpClient = new UdpClient();
             ep = new IPEndPoint(IPAddress.Parse(address), port);
@@ -38,10 +40,10 @@ namespace VitPro.Net {
             udpClient.SendMessage(message);
         }
 
-        public void Handle(T obj) {
+        public void Handle() {
             Message<T> message;
             while (queue.TryDequeue(out message)) {
-                var reply = message.Handle(obj);
+                var reply = message.Handle(model);
                 if (reply != null)
                     udpClient.SendMessage(reply);
             }
