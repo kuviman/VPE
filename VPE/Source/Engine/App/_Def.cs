@@ -29,6 +29,10 @@ namespace VitPro.Engine {
 			Init();
 		}
 
+        public static double RunningTime {
+            get { return timer.RunningTime; }
+        }
+
 	}
 
 }

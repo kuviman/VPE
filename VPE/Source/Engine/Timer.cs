@@ -14,6 +14,7 @@ namespace VitPro.Engine {
 		Queue<long> frames = new Queue<long>();
 		long duration = 0;
 
+        long startTime = -1;
 		long previousTick = -1;
 
 		/// <summary>
@@ -21,6 +22,8 @@ namespace VitPro.Engine {
 		/// </summary>
 		public double Tick() {
 			long currentTick = System.Diagnostics.Stopwatch.GetTimestamp();
+            if (startTime == -1)
+                startTime = currentTick;
 			var dt = previousTick == -1 ? 0 : currentTick - previousTick;
 			frames.Enqueue(dt);
 			duration += dt;
@@ -43,6 +46,10 @@ namespace VitPro.Engine {
 				return frames.Count / ((double) duration / System.Diagnostics.Stopwatch.Frequency);
 			}
 		}
+
+        public double RunningTime {
+            get { return (double)(System.Diagnostics.Stopwatch.GetTimestamp() - startTime) / System.Diagnostics.Stopwatch.Frequency; }
+        }
 
 	}
 
