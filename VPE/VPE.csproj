@@ -130,6 +130,7 @@
     <Compile Include="Source\Physics\Body\_Def.cs" />
     <Compile Include="Source\Physics\Body\Misc.cs" />
     <Compile Include="Source\Physics\World\_Def.cs" />
+    <Compile Include="Source\_Lib\IdGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
