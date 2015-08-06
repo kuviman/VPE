@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
@@ -8,16 +9,14 @@ using log4net;
 
 namespace VitPro.Net {
 
-    public class Client<T> {
+	public abstract class Client<T> where T : Message {
 
 		static ILog log = LogManager.GetLogger(typeof(Client<T>));
 
-		T model;
         UdpClient udpClient;
         IPEndPoint ep;
 
-        public Client(T model, string address, int port) {
-			this.model = model;
+        public Client(string address, int port) {
 			log.Info(string.Format("Trying to connect to {0}:{1}", address, port));
             udpClient = new UdpClient();
             ep = new IPEndPoint(IPAddress.Parse(address), port);
@@ -27,7 +26,7 @@ namespace VitPro.Net {
             thread.Start();
         }
 
-        ConcurrentQueue<Message<T>> queue = new ConcurrentQueue<Message<T>>();
+        ConcurrentQueue<T> queue = new ConcurrentQueue<T>();
 
         void Run() {
             while (true) {
@@ -39,18 +38,21 @@ namespace VitPro.Net {
             return Tuple.Create(udpClient.GetTrafficSent(), udpClient.GetTrafficReceived());
         }
 
-        public void Send(Message<T> message) {
+        public void Send(T message) {
             udpClient.SendMessage(message);
         }
 
         public void Handle() {
-            Message<T> message;
+            T message;
             while (queue.TryDequeue(out message)) {
-                var reply = message.Handle(model);
-                if (reply != null)
-                    udpClient.SendMessage(reply);
+				var replies = Handle(message);
+				if (replies != null)
+					foreach (var reply in replies)
+                    	udpClient.SendMessage(reply);
             }
         }
+
+		protected abstract IEnumerable<T> Handle(T message);
 
     }
 

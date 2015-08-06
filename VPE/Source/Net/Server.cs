@@ -9,24 +9,28 @@ using log4net;
 
 namespace VitPro.Net {
 
-    public class Server<T> {
+	public abstract class Server<T> where T: Message {
 
 		static ILog log = LogManager.GetLogger(typeof(Server<T>));
 
         UdpClient udpServer;
-		T model;
 
-        public Server(T model, int port) {
-			this.model = model;
+        public Server(int port) {
             udpServer = new UdpClient(port);
             var thread = new Thread(() => Run(port));
             thread.IsBackground = true;
             thread.Start();
         }
 
-        ConcurrentQueue<Tuple<Message<T>, IPEndPoint>> messages = new ConcurrentQueue<Tuple<Message<T>, IPEndPoint>>();
+        ConcurrentQueue<Tuple<T, IPEndPoint>> messages = new ConcurrentQueue<Tuple<T, IPEndPoint>>();
 
         HashSet<IPEndPoint> ips = new HashSet<IPEndPoint>();
+
+		public void Broadcast(T message) {
+			foreach (var ip in ips) {
+				udpServer.SendMessage(message, ip);
+			}
+		}
 
         void Run(int port) {
             while (true) {
@@ -45,13 +49,20 @@ namespace VitPro.Net {
         }
 
         public void Handle() {
-            Tuple<Message<T>, IPEndPoint> message;
+            Tuple<T, IPEndPoint> message;
             while (messages.TryDequeue(out message)) {
-                var reply = message.Item1.Handle(model);
-				if (reply != null) 
-					udpServer.SendMessage(reply, message.Item2);
+				var replies = Handle(message.Item1);
+				if (replies != null)
+					foreach (var reply in replies)
+						udpServer.SendMessage(reply, message.Item2);
             }
         }
+
+		public void SendTo(T message, int who) {
+			udpServer.SendMessage(message, who);
+		}
+
+		protected abstract IEnumerable<T> Handle(T message);
 
     }
 

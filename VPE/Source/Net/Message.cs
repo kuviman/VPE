@@ -5,30 +5,10 @@ using System.Net.Sockets;
 
 namespace VitPro.Net {
 
-    public interface Message<T> {
-        Message<T> Handle(T obj);
-    }
-
-    [Serializable]
-    public class MessageList<T> : Message<T> {
-        internal List<Message<T>> messages = new List<Message<T>>();
-
-        public void AddMessage(Message<T> message) {
-            messages.Add(message);
-        }
-
-        public Message<T> Handle(T obj) {
-            MessageList<T> reply = new MessageList<T>();
-            foreach (var message in messages) {
-                var cur = message.Handle(obj);
-                if (cur != null)
-                    reply.AddMessage(cur);
-            }
-            if (reply.messages.Count == 0)
-                return null;
-            return reply;
-        }
-    }
+	[Serializable]
+	public class Message {
+		public int Sender { get; internal set; }
+	}
 
     [Serializable]
     class MessagePart {
@@ -48,6 +28,7 @@ namespace VitPro.Net {
     static class UdpServerExt {
         const int MAX_MESSAGE_SIZE = 1000;
         static long idCounter = 0;
+		static Dictionary<int, IPEndPoint> ips = new Dictionary<int, IPEndPoint>();
         static Dictionary<UdpClient, long> trafficReceived = new Dictionary<UdpClient, long>();
         static Dictionary<UdpClient, long> trafficSent = new Dictionary<UdpClient, long>();
         static Dictionary<UdpClient, Dictionary<long, List<MessagePart>>> messages = new Dictionary<UdpClient,Dictionary<long,List<MessagePart>>>();
@@ -65,7 +46,7 @@ namespace VitPro.Net {
                 return 0;
         }
 
-        public static void SendMessage<T>(this UdpClient client, Message<T> message, IPEndPoint ip) {
+		public static void SendMessage(this UdpClient client, Message message, IPEndPoint ip) {
             byte[] data = GUtil.Serialize(message);
             if (data.Length < MAX_MESSAGE_SIZE)
                 Send(client, data, ip);
@@ -81,22 +62,27 @@ namespace VitPro.Net {
                 }
             }
         }
-        public static void SendMessage<T>(this UdpClient client, Message<T> message) {
-            var list = message as MessageList<T>;
-            if (list != null) {
-                foreach (var part in list.messages)
-                    SendMessage(client, part);
-            } else
-                SendMessage(client, message, null);
+		public static void SendMessage(this UdpClient client, Message message, int ipHash) {
+			SendMessage(client, message, ips[ipHash]);
+		}
+		public static void SendMessage(this UdpClient client, Message message) {
+            SendMessage(client, message, null);
         }
-        public static Message<T> ReceiveMessage<T>(this UdpClient client, ref IPEndPoint ip) {
+
+		static T GetSender<T>(T message, IPEndPoint ip) where T : Message {
+			ips[ip.GetHashCode()] = ip;
+			message.Sender = ip.GetHashCode();
+			return message;
+		}
+
+		public static T ReceiveMessage<T>(this UdpClient client, ref IPEndPoint ip) where T : Message {
             while (true) {
                 var receivedData = client.Receive(ref ip);
                 trafficReceived[client] = GetTrafficReceived(client) + receivedData.Length;
                 var o = GUtil.Deserialize<object>(receivedData);
-                var message = o as Message<T>;
+                var message = o as T;
                 if (message != null)
-                    return message;
+					return GetSender(message, ip);
                 var part = o as MessagePart;
                 if (!messages.ContainsKey(client)) {
                     messages[client] = new Dictionary<long, List<MessagePart>>();
@@ -115,7 +101,7 @@ namespace VitPro.Net {
                             data[p.partId * MAX_MESSAGE_SIZE + i] = p.data[i];
                     }
                     messages[client].Remove(part.messageId);
-                    return GUtil.Deserialize<Message<T>>(data);
+					return GetSender(GUtil.Deserialize<T>(data), ip);
                 }
             }
         }
