@@ -42,7 +42,11 @@ namespace VitPro.Engine {
             return CurrentTexture.Current.Item1;
         }
 
+        public bool Loopable = true;
+
 		public void Update(double dt) {
+            if (!Loopable && HasLooped)
+                return;
 			Timer += dt;
 			if (Textures.Count < 2)
 				return;
