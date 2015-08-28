@@ -100,56 +100,6 @@ namespace VitPro.Engine {
             };
 		}
 
-        public static void SubscribeRenderFrame(Action a)
-        {
-            window.RenderFrame += (sender, e) => a();
-        }
-
-        public static void SubscribeUpdateFrame(Action a)
-        {
-            window.UpdateFrame += (sender, e) => a();
-        }
-
-        public static void SubscribeKeyDown(Action<Key> a)
-        {
-            window.KeyDown += (sender, e) => a((Key)e.Key);
-        }
-
-        public static void SubscribeKeyUp(Action<Key> a)
-        {
-            window.KeyUp += (sender, e) => a((Key)e.Key);
-        }
-
-        public static void SubscribeKeyPress(Action<char> a)
-        {
-            window.KeyPress += (sender, e) => a(e.KeyChar);
-        }
-
-        public static void SubscribeMouseDown(Action<MouseButton> a)
-        {
-            window.MouseDown += (sender, e) => a((MouseButton)e.Button);
-        }
-
-        public static void SubscribeMouseUp(Action<MouseButton> a)
-        {
-            window.MouseUp += (sender, e) => a((MouseButton)e.Button);
-        }
-
-        public static void SubscribeMouseMove(Action<Vec2> a)
-        {
-            window.MouseMove += (sender, e) => a(Mouse.Position);
-        }
-
-        public static void SubscribeMouseWheel(Action a)
-        {
-            window.MouseWheel += (sender, e) => a();
-        }
-
-        public static void SubscribeResize(Action a)
-        {
-            window.Resize += (sender, e) => a();
-        }
-
 		static Vec2 FixMouse(Vec2 pos) {
 //			if (Multisampling)
 //				return pos * multisampleFactor;
