@@ -48,6 +48,7 @@
     <Compile Include="Source\Net\Client.cs" />
     <Compile Include="Source\Net\Message.cs" />
     <Compile Include="Source\Net\Server.cs" />
+    <Compile Include="Source\_Lib\GUtil\Serialization.cs" />
     <Compile Include="Source\_Lib\Vector\Vec2i\_Def.cs" />
     <Compile Include="Source\_Lib\Resource.cs" />
     <Compile Include="Source\_Lib\Vector\Vec3\Misc.cs" />
@@ -152,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Shaders\Lib\HSV.glsl">
       <LogicalName>Shaders/Lib/HSV.glsl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Lib\TextureMacros.glsl">
+      <LogicalName>Shaders/Lib/TextureMacros.glsl</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

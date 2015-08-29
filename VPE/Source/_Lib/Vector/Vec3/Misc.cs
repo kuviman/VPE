@@ -17,6 +17,10 @@ namespace VitPro {
                 return a.Unit * maxlen;
         }
 
+		public Vec2 XY {
+			get { return new Vec2(X, Y); }
+		}
+
     }
 
 }

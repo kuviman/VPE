@@ -21,6 +21,7 @@ namespace VitPro.Engine {
 			GL.CompileShader(vertexShader);
 
 			AddLib(Resource.String("Shaders/Lib/HSV.glsl"));
+			AddLib(Resource.String("Shaders/Lib/TextureMacros.glsl"));
 		}
 
 		int program;
