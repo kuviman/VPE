@@ -12,7 +12,7 @@ namespace VitPro.Engine {
 
 		static bool Initialized = false;
 
-		internal static void Init() {
+		public static void Init() {
 			if (Initialized)
 				return;
 			log4net.Config.BasicConfigurator.Configure();

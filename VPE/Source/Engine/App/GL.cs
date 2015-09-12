@@ -10,6 +10,7 @@ namespace VitPro.Engine {
 		static void InitGL() {
 			log.Info("Initializing OpenGL Context");
 			GL.Enable(EnableCap.Blend);
+			GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Lequal);
 		}
 

@@ -13,6 +13,12 @@ namespace VitPro.Engine.UI {
 		/// <value>The background state.</value>
 		public VitPro.Engine.State Background { get; set; }
 
+        /// <summary>
+        /// Gets or sets the background color (null for no background).
+        /// </summary>
+        /// <value>The background color.</value>
+        public Color? BackgroundColor { get; set; }
+
 		/// <summary>
 		/// Gets the main UI frame.
 		/// </summary>
@@ -44,6 +50,8 @@ namespace VitPro.Engine.UI {
 		/// </summary>
 		public override void Render() {
 			base.Render();
+            if (BackgroundColor.HasValue)
+                Draw.Clear(BackgroundColor.Value);
 			if (Background != null)
                 Background.Render();
 			Frame.Size = new Vec2(RenderState.Width, RenderState.Height) / Zoom;

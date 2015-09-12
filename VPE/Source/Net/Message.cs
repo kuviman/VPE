@@ -32,6 +32,7 @@ namespace VitPro.Net {
         static Dictionary<UdpClient, long> trafficReceived = new Dictionary<UdpClient, long>();
         static Dictionary<UdpClient, long> trafficSent = new Dictionary<UdpClient, long>();
         static Dictionary<UdpClient, Dictionary<long, List<MessagePart>>> messages = new Dictionary<UdpClient,Dictionary<long,List<MessagePart>>>();
+        static object lc = new object();
 
         public static long GetTrafficReceived(this UdpClient client) {
             if (trafficReceived.ContainsKey(client))
@@ -47,11 +48,12 @@ namespace VitPro.Net {
         }
 
 		public static void SendMessage(this UdpClient client, Message message, IPEndPoint ip) {
+            //Console.WriteLine("SENDING MESSAGE OF TYPE {0}", message.GetType());
             byte[] data = GUtil.Serialize(message);
             if (data.Length < MAX_MESSAGE_SIZE)
                 Send(client, data, ip);
             else {
-                var messageId = idCounter++;
+                long messageId = GRandom.Next();
                 int totalParts = (data.Length + MAX_MESSAGE_SIZE - 1) / MAX_MESSAGE_SIZE;
                 for (int i = 0; i * MAX_MESSAGE_SIZE < data.Length; i++) {
                     var dataPart = new byte[Math.Min(MAX_MESSAGE_SIZE, data.Length - i * MAX_MESSAGE_SIZE)];
@@ -63,7 +65,10 @@ namespace VitPro.Net {
             }
         }
 		public static void SendMessage(this UdpClient client, Message message, int ipHash) {
-			SendMessage(client, message, ips[ipHash]);
+            lock (lc) {
+                var ip = ips[ipHash];
+                SendMessage(client, message, ip);
+            }
 		}
 		public static void SendMessage(this UdpClient client, Message message) {
             SendMessage(client, message, null);
@@ -72,36 +77,39 @@ namespace VitPro.Net {
 		static T GetSender<T>(T message, IPEndPoint ip) where T : Message {
 			ips[ip.GetHashCode()] = ip;
 			message.Sender = ip.GetHashCode();
+            //Console.WriteLine("GOT MESSAGE OF TYPE {0}", message.GetType());
 			return message;
 		}
 
 		public static T ReceiveMessage<T>(this UdpClient client, ref IPEndPoint ip) where T : Message {
             while (true) {
                 var receivedData = client.Receive(ref ip);
-                trafficReceived[client] = GetTrafficReceived(client) + receivedData.Length;
-                var o = GUtil.Deserialize<object>(receivedData);
-                var message = o as T;
-                if (message != null)
-					return GetSender(message, ip);
-                var part = o as MessagePart;
-                if (!messages.ContainsKey(client)) {
-                    messages[client] = new Dictionary<long, List<MessagePart>>();
-                }
-                if (!messages[client].ContainsKey(part.messageId))
-                    messages[client][part.messageId] = new List<MessagePart>();
-                var parts = messages[client][part.messageId];
-                parts.Add(part);
-                if (parts.Count == part.totalParts) {
-                    var size = 0;
-                    foreach (var p in parts)
-                        size += p.data.Length;
-                    var data = new byte[size];
-                    foreach (var p in parts) {
-                        for (int i = 0; i < p.data.Length; i++)
-                            data[p.partId * MAX_MESSAGE_SIZE + i] = p.data[i];
+                lock (lc) {
+                    trafficReceived[client] = GetTrafficReceived(client) + receivedData.Length;
+                    var o = GUtil.Deserialize<object>(receivedData);
+                    var message = o as T;
+                    if (message != null)
+                        return GetSender(message, ip);
+                    var part = o as MessagePart;
+                    if (!messages.ContainsKey(client)) {
+                        messages[client] = new Dictionary<long, List<MessagePart>>();
                     }
-                    messages[client].Remove(part.messageId);
-					return GetSender(GUtil.Deserialize<T>(data), ip);
+                    if (!messages[client].ContainsKey(part.messageId))
+                        messages[client][part.messageId] = new List<MessagePart>();
+                    var parts = messages[client][part.messageId];
+                    parts.Add(part);
+                    if (parts.Count == part.totalParts) {
+                        var size = 0;
+                        foreach (var p in parts)
+                            size += p.data.Length;
+                        var data = new byte[size];
+                        foreach (var p in parts) {
+                            for (int i = 0; i < p.data.Length; i++)
+                                data[p.partId * MAX_MESSAGE_SIZE + i] = p.data[i];
+                        }
+                        messages[client].Remove(part.messageId);
+                        return GetSender(GUtil.Deserialize<T>(data), ip);
+                    }
                 }
             }
         }

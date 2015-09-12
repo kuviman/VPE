@@ -77,7 +77,7 @@ namespace VitPro.Engine.UI {
 			RenderState.Translate(padding + (Size.X - 2 * padding) * TextAlign, 0);
 			RenderState.Color = TextColor;
 			RenderState.Scale(TextSize);
-			RenderState.Translate(RealFont.Measure(Value) * TextAlign, 0);
+			RenderState.Translate(-RealFont.Measure(Value) * TextAlign, 0);
 			RealFont.Render(Value + (blink < 1 ? "_" : ""), 0, 0.5);
 			RenderState.Pop();
 		}

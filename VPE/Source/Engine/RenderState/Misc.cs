@@ -36,13 +36,23 @@ namespace VitPro.Engine {
 			}
 		}
 
+		class DepthTestSetter : Shader.IUniform {
+			public bool enable;
+			public DepthTestSetter(bool enable) {
+				this.enable = enable;
+			}
+			public void apply(int location, ref int textures) {
+				GL.DepthFunc(enable ? DepthFunction.Lequal : DepthFunction.Always);
+			}
+		}
+
 		/// <summary>
 		/// Gets or sets a value indicating whether depth test is enabled.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public static bool DepthTest {
 			get { return Get<Enabler>("enabler_DepthTest").enable; }
-			set { Set("enabler_DepthTest", new Enabler(EnableCap.DepthTest, value)); }
+			set { Set("enabler_DepthTest", new DepthTestSetter(value)); }
 		}
 
 		/// <summary>

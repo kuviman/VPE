@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Source\Net\Client.cs" />
     <Compile Include="Source\Net\Message.cs" />
+    <Compile Include="Source\Net\NetException.cs" />
     <Compile Include="Source\Net\Server.cs" />
     <Compile Include="Source\_Lib\GUtil\Serialization.cs" />
     <Compile Include="Source\_Lib\Vector\Vec2i\_Def.cs" />

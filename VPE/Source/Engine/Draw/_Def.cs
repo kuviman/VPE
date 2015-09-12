@@ -33,6 +33,10 @@ namespace VitPro.Engine {
 			Clear(color.R, color.G, color.B, color.A);
 		}
 
+        public static void ClearDepth() {
+            GL.Clear(ClearBufferMask.DepthBufferBit);
+        }
+
 	}
 
 }

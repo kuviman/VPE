@@ -16,6 +16,8 @@ namespace VitPro.Net {
         UdpClient udpClient;
         IPEndPoint ep;
 
+        volatile bool finished = false;
+
         public Client(string address, int port) {
 			log.Info(string.Format("Trying to connect to {0}:{1}", address, port));
             udpClient = new UdpClient();
@@ -26,11 +28,22 @@ namespace VitPro.Net {
             thread.Start();
         }
 
+        public virtual void Stop() {
+            udpClient.Close();
+            finished = true;
+        }
+
         ConcurrentQueue<T> queue = new ConcurrentQueue<T>();
 
+        volatile Exception disconnectedReason;
+
         void Run() {
-            while (true) {
-                queue.Enqueue(udpClient.ReceiveMessage<T>(ref ep));
+            try {
+                while (!finished) {
+                    queue.Enqueue(udpClient.ReceiveMessage<T>(ref ep));
+                }
+            } catch (SocketException e) {
+                disconnectedReason = e;
             }
         }
 
@@ -39,10 +52,17 @@ namespace VitPro.Net {
         }
 
         public void Send(T message) {
-            udpClient.SendMessage(message);
+            try {
+                udpClient.SendMessage(message);
+            } catch (SocketException e) {
+                disconnectedReason = e;
+            }
         }
 
         public void Handle() {
+            if (disconnectedReason != null) {
+                throw new NetException("Disconnected", disconnectedReason);
+            }
             T message;
             while (queue.TryDequeue(out message)) {
 				var replies = Handle(message);
