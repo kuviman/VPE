@@ -14,11 +14,12 @@ namespace VitPro.Engine.Examples {
 			Selector.Register<Test>();
 			Selector.Register<BlendModes>();
 			Selector.Register<Pong>();
+            Selector.Register<Chat>();
 		}
 
 		public static void Main() {
 			App.Title = "VPE examples";
-			App.Fullscreen = true;
+            //App.Fullscreen = true;
 //			Mouse.Visible = false;
 			App.Run(new Examples());
 		}

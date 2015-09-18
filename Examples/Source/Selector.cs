@@ -9,7 +9,7 @@ namespace VitPro.Engine.Examples {
 			public SelectElement() {
 				button = new UI.Button(typeof(T).Name, null, 20);
 				button.Anchor = button.Origin = Vec2.Zero;
-                button.FixedWidth = 500;
+                //button.FixedWidth = 500;
 				Add(button);
 
 				Origin = new Vec2(0, 0.5);

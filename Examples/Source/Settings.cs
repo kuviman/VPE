@@ -6,7 +6,7 @@ namespace VitPro.Engine.Examples {
 
 		public static Color BackgroundColor = Color.Sky;
 
-		public static double ZoomUI = 2;
+		public static double ZoomUI = 1.5;
 
 		public Settings() {
 			Zoom = ZoomUI;
