@@ -1,25 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Web.Script.Serialization;
 using System.IO;
 using BinaryFormatter = System.Runtime.Serialization.Formatters.Binary.BinaryFormatter;
+using System.Xml.Serialization;
 
 namespace VitPro {
 
     partial class GUtil {
 
-        public static byte[] Serialize(object o) {
-            var f = new MemoryStream();
-            var fmt = new BinaryFormatter();
+		public static byte[] Serialize(object o, bool compatible = true) {
+			var f = new MemoryStream();
+			var fmt = new BinaryFormatter();
             fmt.Serialize(f, o);
-            var bytes = f.ToArray();
-            return Compress(bytes);
+			return Compress(f.ToArray());
         }
 
-        public static T Deserialize<T>(byte[] bytes) {
+		public static T Deserialize<T>(byte[] bytes, bool compatible = true) {
             bytes = Decompress(bytes);
-            var f = new MemoryStream(bytes);
-            var fmt = new BinaryFormatter();
-            return (T)fmt.Deserialize(f);
+			var f = new MemoryStream(bytes);
+			var fmt = new BinaryFormatter();
+			var obj = fmt.Deserialize(f);
+			return (T)obj;
         }
 
         /// <summary>

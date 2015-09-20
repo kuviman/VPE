@@ -48,7 +48,7 @@ namespace VitPro.Net {
         }
 
 		public static void SendMessage(this UdpClient client, Message message, IPEndPoint ip) {
-            //Console.WriteLine("SENDING MESSAGE OF TYPE {0}", message.GetType());
+            Console.WriteLine("SENDING MESSAGE OF TYPE {0}", message.GetType());
             byte[] data = GUtil.Serialize(message);
             if (data.Length < MAX_MESSAGE_SIZE)
                 Send(client, data, ip);
@@ -77,7 +77,7 @@ namespace VitPro.Net {
 		static T GetSender<T>(T message, IPEndPoint ip) where T : Message {
 			ips[ip.GetHashCode()] = ip;
 			message.Sender = ip.GetHashCode();
-            //Console.WriteLine("GOT MESSAGE OF TYPE {0}", message.GetType());
+            Console.WriteLine("GOT MESSAGE OF TYPE {0}", message.GetType());
 			return message;
 		}
 

@@ -38,7 +38,6 @@ namespace VitPro.Net {
         public virtual void Disconnect(int who) { }
 
 		public void Broadcast(T message) {
-            List<IPEndPoint> deadClients = new List<IPEndPoint>();
             foreach (var entry in clients) {
                 if (System.Diagnostics.Stopwatch.GetTimestamp() - entry.Value > 1 * System.Diagnostics.Stopwatch.Frequency) {
                     long tmp;
@@ -66,7 +65,7 @@ namespace VitPro.Net {
                     }
                     clients[remoteEP] = System.Diagnostics.Stopwatch.GetTimestamp();
                     messages.Enqueue(Tuple.Create(message, remoteEP));
-                } catch (SocketException e) {
+                } catch (SocketException) {
                     //log.Warn("Got exception while receiving message", e);
                 }
             }
