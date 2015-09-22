@@ -5,27 +5,31 @@ namespace VitPro {
 	/// <summary>
 	/// RGBA color.
 	/// </summary>
-	[Serializable]
+	
 	public partial struct Color {
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the red component.
 		/// </summary>
 		/// <value>The red component.</value>
 		public double R { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the green component.
 		/// </summary>
 		/// <value>The green component.</value>
 		public double G { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the blue component.
 		/// </summary>
 		/// <value>The blue component.</value>
 		public double B { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the alpha component.
 		/// </summary>

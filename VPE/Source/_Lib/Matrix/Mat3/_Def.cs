@@ -6,7 +6,6 @@ namespace VitPro {
 	/// <summary>
 	/// 3x3 matrix.
 	/// </summary>
-	[Serializable]
 	public partial struct Mat3 {
 
         static Mat3() {

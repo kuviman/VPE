@@ -5,21 +5,24 @@ namespace VitPro {
 	/// <summary>
 	/// 3d vector with double coordinates.
 	/// </summary>
-	[Serializable]
+	
 	public partial struct Vec3 {
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the x coordinate.
 		/// </summary>
 		/// <value>The x coordinate.</value>
 		public double X { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the y coordinate.
 		/// </summary>
 		/// <value>The y coordinate.</value>
 		public double Y { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the z coordinate.
 		/// </summary>

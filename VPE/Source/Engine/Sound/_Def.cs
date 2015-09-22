@@ -8,18 +8,15 @@ namespace VitPro.Engine {
 	/// <summary>
 	/// Sound.
 	/// </summary>
-	[Serializable]
 	public partial class Sound {
 		
-		[NonSerialized]
 		int id;
 
 		int channels, bits_per_sample, sample_rate;
 		byte[] sound_data;
 
-		[NonSerialized]
 		List<int> srcs;
-		[NonSerialized]
+
 		int i;
 		const int MaxSources = 20;
 

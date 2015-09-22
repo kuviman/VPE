@@ -4,6 +4,7 @@ namespace VitPro {
 
 	partial struct Vec2 {
 
+		
 		/// <summary>
 		/// Get the square length of the vector.
 		/// </summary>
@@ -11,6 +12,7 @@ namespace VitPro {
 			get { return X * X + Y * Y; }
 		}
 
+		
 		/// <summary>
 		/// Get the argument of the vector.
 		/// </summary>

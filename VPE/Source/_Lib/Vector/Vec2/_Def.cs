@@ -5,15 +5,17 @@ namespace VitPro {
 	/// <summary>
 	/// 2d vector with double coordinates.
 	/// </summary>
-	[Serializable]
+	
 	public partial struct Vec2 {
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the x coordinate.
 		/// </summary>
 		/// <value>The x coordinate.</value>
 		public double X { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the y coordinate.
 		/// </summary>

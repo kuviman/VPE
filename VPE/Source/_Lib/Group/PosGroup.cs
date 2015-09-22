@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace VitPro {
 	
-	[Serializable]
 	public class PosGroup<T> : ICollection<T> where T : class {
 		
 		HashSet<T>[,] map;

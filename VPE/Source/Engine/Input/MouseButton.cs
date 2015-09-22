@@ -5,7 +5,7 @@ namespace VitPro.Engine {
 	/// <summary>
 	/// Enumerates all possible mouse buttons.
 	/// </summary>
-	[Serializable]
+	
 	public enum MouseButton {
 		
 		/// <summary>

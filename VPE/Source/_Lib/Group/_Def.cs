@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 
 namespace VitPro {
-
-	[Serializable]
+	
 	public class Group<T> : ICollection<T> where T : class {
 
 		HashSet<T> objects = new HashSet<T>();
 
-		[Serializable]
 		struct Operation {
 			
-			[Serializable]
 			public enum OpType {
 				New,
 				Remove,

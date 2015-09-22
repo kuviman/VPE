@@ -61,6 +61,7 @@ namespace VitPro {
 			return new Vec2i(a.X / b.X, a.Y / b.Y);
 		}
 
+		
 		/// <summary>
 		/// Gets the square length of this vector.
 		/// </summary>

@@ -5,17 +5,28 @@ using System.Net.Sockets;
 
 namespace VitPro.Net {
 
-	[Serializable]
+	
 	public class Message {
+		[Serialize]
 		public int Sender { get; internal set; }
 	}
 
-    [Serializable]
-    class MessagePart {
+    
+	class MessagePart {
+		
+		[Serialize]
         public long messageId;
+
+		[Serialize]
         public int partId;
+
+		[Serialize]
         public int totalParts;
+
+		[Serialize]
         public byte[] data;
+
+		MessagePart() {}
 
         public MessagePart(long messageId, int partId, int totalParts, byte[] data) {
             this.messageId = messageId;

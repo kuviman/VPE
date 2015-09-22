@@ -6,7 +6,7 @@ namespace VitPro.Engine {
 	/// <summary>
 	/// The available keyboard keys.
 	/// </summary>
-	[Serializable]
+	
 	public enum Key: int {
 		
 		/// <summary>A key outside the known keys.</summary>

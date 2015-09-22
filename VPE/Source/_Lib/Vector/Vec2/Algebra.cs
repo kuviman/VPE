@@ -61,6 +61,7 @@ namespace VitPro {
 			return new Vec2(a.X / b.X, a.Y / b.Y);
 		}
 
+		
 		/// <summary>
 		/// Gets the square length of this vector.
 		/// </summary>
@@ -69,6 +70,7 @@ namespace VitPro {
 			get { return Dot(this, this); }
 		}
 
+		
 		/// <summary>
 		/// Gets the length of this vector.
 		/// </summary>
@@ -77,6 +79,7 @@ namespace VitPro {
 			get { return Math.Sqrt(SquareLength); }
 		}
 
+		
 		/// <summary>
 		/// Gets the unit vector.
 		/// </summary>

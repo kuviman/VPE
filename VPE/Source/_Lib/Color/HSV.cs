@@ -55,6 +55,7 @@ namespace VitPro {
 			return new Vec3(h, s, v);
 		}
 
+		
 		/// <summary>
 		/// Gets the hue.
 		/// </summary>
@@ -63,6 +64,7 @@ namespace VitPro {
 			get { return toHSV().X; }
 		}
 
+		
 		/// <summary>
 		/// Gets the saturation.
 		/// </summary>
@@ -71,6 +73,7 @@ namespace VitPro {
 			get { return toHSV().Y; }
 		}
 
+		
 		/// <summary>
 		/// Gets the value.
 		/// </summary>

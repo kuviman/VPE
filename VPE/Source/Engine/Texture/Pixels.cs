@@ -5,7 +5,7 @@ namespace VitPro.Engine {
 
 	partial class Texture {
 		
-		[Serializable]
+		
 		struct ColorStruct {
 			public byte r, g, b, a;
 			public ColorStruct(Color c) {

@@ -5,15 +5,17 @@ namespace VitPro {
 	/// <summary>
 	/// 2d vector with integer coordinates.
 	/// </summary>
-	[Serializable]
+	
 	public partial struct Vec2i {
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the x coordinate.
 		/// </summary>
 		/// <value>The x coordinate.</value>
 		public int X { get; set; }
 
+		[Serialize]
 		/// <summary>
 		/// Gets or sets the y coordinate.
 		/// </summary>
@@ -30,13 +32,13 @@ namespace VitPro {
 			Y = y;
 		}
 
-		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="VitPro.Vec2i"/>.
-		/// </summary>
-		/// <returns>A <see cref="System.String"/> that represents the current <see cref="VitPro.Vec2i"/>.</returns>
-		public override string ToString() {
-			return string.Format("({0}; {1})", X, Y);
-		}
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the current <see cref="VitPro.Vec2i"/>.
+        /// </summary>
+        /// <returns>A <see cref="System.String"/> that represents the current <see cref="VitPro.Vec2i"/>.</returns>
+        public override string ToString() {
+            return string.Format("({0}; {1})", X, Y);
+        }
 
 		/// <summary>
 		/// Gets the zero vector.

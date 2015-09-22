@@ -5,7 +5,7 @@ namespace VitPro.Engine {
 	/// <summary>
 	/// 3d camera.
 	/// </summary>
-	[Serializable]
+	
 	public class Camera {
 
 		/// <summary>

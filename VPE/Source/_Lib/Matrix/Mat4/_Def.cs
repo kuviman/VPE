@@ -6,7 +6,6 @@ namespace VitPro {
 	/// <summary>
 	/// 4x4 matrix.
 	/// </summary>
-	[Serializable]
 	public partial struct Mat4 {
 		
 		internal Matrix4d mat;

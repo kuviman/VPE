@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 namespace VitPro.Physics {
-
-	[Serializable]
+	
 	public partial class Body {
 
 		Vec2[] vertices;

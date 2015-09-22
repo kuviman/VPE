@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace VitPro.Engine {
 
-	[Serializable]
+	
 	public class View {
 
 		public Vec2 Position { get; set; }
@@ -43,7 +43,10 @@ namespace VitPro.Engine {
 			return result;
 		}
 
+		
 		public Vec2 OrtX { get { return Vec2.Rotate(Vec2.OrtX, Rotation); } }
+
+		
 		public Vec2 OrtY { get { return Vec2.Rotate(Vec2.OrtY, Rotation); } }
 
 	}

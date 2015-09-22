@@ -43,6 +43,7 @@ namespace VitPro {
 			return new Vec3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
 		}
 
+		
         /// <summary>
         /// Gets the square length of this vector.
         /// </summary>
@@ -51,6 +52,7 @@ namespace VitPro {
             get { return Dot(this, this); }
         }
 
+		
         /// <summary>
         /// Gets the length of this vector.
         /// </summary>
@@ -59,6 +61,7 @@ namespace VitPro {
             get { return Math.Sqrt(SquareLength); }
         }
 
+		
         /// <summary>
         /// Gets the unit vector.
         /// </summary>

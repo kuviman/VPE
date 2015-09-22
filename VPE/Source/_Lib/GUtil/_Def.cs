@@ -70,6 +70,14 @@ namespace VitPro {
             return buffer;
         }
 
+        public static string GetString(byte[] bytes) {
+            return System.Text.Encoding.UTF8.GetString(bytes);
+        }
+
+        public static byte[] GetBytes(string s) {
+            return System.Text.Encoding.UTF8.GetBytes(s);
+        }
+
     }
 
 }

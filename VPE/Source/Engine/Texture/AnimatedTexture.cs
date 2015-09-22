@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace VitPro.Engine {
 	
-	[Serializable]
 	public class AnimatedTexture : IUpdateable, IRenderable {
 		
 		private List<Tuple<Texture, double>> Textures = new List<Tuple<Texture, double>>();
