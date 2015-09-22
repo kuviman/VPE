@@ -25,6 +25,9 @@ namespace VitPro.Engine {
             if (startTime == -1)
                 startTime = currentTick;
 			var dt = previousTick == -1 ? 0 : currentTick - previousTick;
+			// MAGIC ? WTF NPE
+			if (frames == null)
+				frames = new Queue<long>();
 			frames.Enqueue(dt);
 			duration += dt;
 			previousTick = currentTick;
