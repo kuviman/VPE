@@ -20,7 +20,7 @@ namespace VitPro.Engine.UI {
 		/// Gets a value indicating whether this <see cref="VitPro.Engine.UI.Element"/> is pressed.
 		/// </summary>
 		/// <value><c>true</c> if pressed; otherwise, <c>false</c>.</value>
-		public bool Pressed { get; private set; }
+		public bool Pressed { get; set; }
 
 		/// <summary>
 		/// Occurs when mouse button is presed.
@@ -139,7 +139,7 @@ namespace VitPro.Engine.UI {
 		/// Gets a value indicating whether mouse is hovered over this element.
 		/// </summary>
 		/// <value><c>true</c> if hovered; otherwise, <c>false</c>.</value>
-		public bool Hovered { get; private set; }
+		public bool Hovered { get; set; }
 
 		/// <summary>
 		/// Occurs when mouse is hovered over the element.
@@ -177,7 +177,7 @@ namespace VitPro.Engine.UI {
 		/// Gets a value indicating whether this <see cref="VitPro.Engine.UI.Element"/> is focused.
 		/// </summary>
 		/// <value><c>true</c> if focused; otherwise, <c>false</c>.</value>
-		public bool Focused { get; internal set; }
+		public bool Focused { get; set; }
 
 		/// <summary>
 		/// Occurs when element gains focus.

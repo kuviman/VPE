@@ -49,7 +49,6 @@ namespace VitPro.Engine {
 			Timer += dt;
 			if (Textures.Count < 2)
 				return;
-			CurrentTime += dt;
 			if (CurrentTime > CurrentTexture.Current.Item2) {
 				CurrentTime = 0;
 				if (!CurrentTexture.MoveNext()) {
@@ -57,7 +56,8 @@ namespace VitPro.Engine {
 					CurrentTexture = Textures.GetEnumerator();
 					CurrentTexture.MoveNext();
 				}
-			}
+            }
+            CurrentTime += dt;
 		}
 
 		public double GetTotalTime { get { return TotalTime; } }
