@@ -74,6 +74,16 @@ namespace VitPro.Engine {
 			Set(name, new Shader.UniformFloat(value));
 		}
 
+        /// <summary>
+        /// Set a uniform for shaders.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value">Uniform value.</param>
+        public static void Set(string name, int value)
+        {
+            Set(name, new Shader.UniformInt(value));
+        }
+
 		/// <summary>
 		/// Set a uniform for shaders.
 		/// </summary>
@@ -83,6 +93,17 @@ namespace VitPro.Engine {
 			Set(name, new Shader.UniformVec2(value.X, value.Y));
 		}
 
+        /// <summary>
+        /// Set a uniform for shaders.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value1">Uniform first value.</param>
+        /// <param name="value2">Uniform second value.</param>
+        public static void Set(string name, double value1, double value2)
+        {
+            Set(name, new Shader.UniformVec2(value1, value2));
+        }
+
 		/// <summary>
 		/// Set a uniform for shaders.
 		/// </summary>
@@ -91,6 +112,31 @@ namespace VitPro.Engine {
 		public static void Set(string name, Vec3 value) {
 			Set(name, new Shader.UniformVec3(value.X, value.Y, value.Z));
 		}
+
+        /// <summary>
+        /// Set a uniform for shaders.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value1">Uniform first value.</param>
+        /// <param name="value2">Uniform second value.</param>
+        /// <param name="value3">Uniform third value.</param>
+        public static void Set(string name, double value1, double value2, double value3)
+        {
+            Set(name, new Shader.UniformVec3(value1, value2, value3));
+        }
+
+        /// <summary>
+        /// Set a uniform for shaders.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value1">Uniform first value.</param>
+        /// <param name="value2">Uniform second value.</param>
+        /// <param name="value3">Uniform third value.</param>
+        /// <param name="value4">Uniform third value.</param>
+        public static void Set(string name, double value1, double value2, double value3, double value4)
+        {
+            Set(name, new Shader.UniformVec4(value1, value2, value3, value4));
+        }
 
 		/// <summary>
 		/// Set a uniform for shaders.

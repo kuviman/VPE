@@ -28,6 +28,19 @@ namespace VitPro.Engine {
 			}
 		}
 
+        internal class UniformInt : IUniform
+        {
+            public int value;
+            public UniformInt(int value)
+            {
+                this.value = value;
+            }
+            public void apply(int location, ref int textures)
+            {
+                GL.Uniform1(location, value);
+            }
+        }
+
 		internal class UniformVec2 : IUniform {
 			public float x, y;
 			public UniformVec2(double x, double y) {
