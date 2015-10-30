@@ -45,8 +45,16 @@ namespace VitPro.Engine {
 			foreach (var source in sources) {
 				var shader = GL.CreateShader(ShaderType.FragmentShader);
 				var completeSource = source;
+                var version = "";
+                if(completeSource.StartsWith("#version"))
+                {
+                    int index = completeSource.IndexOf("\n");
+                    version = completeSource.Substring(0, index + 2);
+                    completeSource = completeSource.Remove(0, index + 2);
+                }
 				foreach (var lib in libSources)
 					completeSource = lib + completeSource;
+                completeSource = version + completeSource;
 				GL.ShaderSource(shader, completeSource);
 				GL.CompileShader(shader);
 				int compileStatus;
